@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: EscapeRoom
+    restart: always
+    ports:
+      - "3313:3313"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: escape_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

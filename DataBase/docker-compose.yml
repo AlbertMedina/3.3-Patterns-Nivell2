@@ -6,7 +6,7 @@ services:
     container_name: EscapeRoom
     restart: always
     ports:
-      - "3313:3313"
+      - "3313:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       MYSQL_DATABASE: escape_db

@@ -11,7 +11,7 @@ public class RoomDao implements GenericDao<Room> {
 
     @Override
     public Room findById(int id) {
-        String sqlQuery = "SELECT * FROM rooms WHERE id = ?";
+        String sqlQuery = "SELECT * FROM room WHERE id = ?";
         Room room = null;
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
@@ -32,7 +32,7 @@ public class RoomDao implements GenericDao<Room> {
 
     @Override
     public List<Room> findAll() {
-        String sqlQuery = "SELECT * FROM rooms";
+        String sqlQuery = "SELECT * FROM room";
 
         List<Room> rooms = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class RoomDao implements GenericDao<Room> {
 
     @Override
     public boolean insert(Room element) {
-        String sql = "INSERT INTO rooms (name, difficulty, price, escape_room_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO room (name, difficulty, price, escape_room_id) VALUES (?, ?, ?, ?)";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -80,7 +80,7 @@ public class RoomDao implements GenericDao<Room> {
 
     @Override
     public boolean update(Room element) {
-        String sql = "UPDATE rooms SET name = ?, difficulty = ?, price = ?, escape_room_id = ? WHERE id = ?";
+        String sql = "UPDATE room SET name = ?, difficulty = ?, price = ?, escape_room_id = ? WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -101,7 +101,7 @@ public class RoomDao implements GenericDao<Room> {
 
     @Override
     public boolean delete(int id) {
-        String sqlQuery = "DELETE FROM rooms WHERE id = ?";
+        String sqlQuery = "DELETE FROM room WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlQuery)) {

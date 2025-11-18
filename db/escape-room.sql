@@ -19,7 +19,7 @@ USE `mydb` ;
 DROP TABLE IF EXISTS `mydb`.`escape_room` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`escape_room` (
-  `id` INT NOT NULL,
+  `id` AUTO_INCREMENT PRIMARY KEY INT NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)

@@ -12,7 +12,10 @@ import java.util.Properties;
 public class DBConnection {
 
     private static DBConnection instance;
-    private Connection connection;
+
+    private String url;
+    private String user;
+    private String password;
 
     private DBConnection() {
         try {
@@ -22,15 +25,13 @@ public class DBConnection {
 
             String dbName = properties.getProperty("name");
             String dbPort = properties.getProperty("port");
-            String dbUser = properties.getProperty("user");
-            String dbPassword = properties.getProperty("password");
+            this.user = properties.getProperty("user");
+            this.password = properties.getProperty("password");
 
-            String url = "jdbc:mysql://localhost:" + dbPort + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
-
-            this.connection = DriverManager.getConnection(url, dbUser, dbPassword);
+            this.url = "jdbc:mysql://localhost:" + dbPort + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
 
         } catch (Exception e) {
-            throw new RuntimeException("Error al inicializar conexión a la BD", e);
+            throw new RuntimeException("Error to connect with data base.", e);
         }
     }
 
@@ -41,8 +42,8 @@ public class DBConnection {
         return instance;
     }
 
-    public Connection getConnection() {
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
     }
 }
 

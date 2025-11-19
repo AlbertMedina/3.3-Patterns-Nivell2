@@ -7,18 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class EscapeRoom {
+
     private int id;
     private String name;
 
+
+    public EscapeRoom(String name) {
+        if (name == null || name.isBlank()) {
+            throw new InvalidNameException();
+        }
+        this.name = name;
+    }
 
     public EscapeRoom(int id, String name) {
         if (id <= 0) {
             throw new ErrorOnIdException();
         }
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isBlank()) {
             throw new InvalidNameException();
         }
+
         this.id = id;
         this.name = name;
     }
@@ -27,23 +37,17 @@ public class EscapeRoom {
         return id;
     }
 
+
     public void setId(int id) {
+        if (id <= 0) {
+            throw new ErrorOnIdException();
+        }
         this.id = id;
     }
 
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public void addRoom() {
-
-    }
-
 
     @Override
     public String toString() {

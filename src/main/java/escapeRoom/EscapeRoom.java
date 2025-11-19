@@ -53,6 +53,13 @@ public class EscapeRoom {
     public String toString() {
         return "EscapeRoom{id=" + id + ", name='" + name + "'}";
     }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new InvalidNameException();
+        }
+        this.name = name;
+    }
 }
 
 

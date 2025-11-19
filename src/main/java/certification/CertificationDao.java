@@ -1,6 +1,5 @@
 package certification;
 
-import certification.Certification;
 import db.DBConnection;
 import db.GenericDao;
 

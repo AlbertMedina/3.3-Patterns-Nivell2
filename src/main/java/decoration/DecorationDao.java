@@ -20,9 +20,8 @@ public class DecorationDao implements GenericDao<Decoration> {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                decoration = new Decoration(rs.getString("name"), rs.getString("material"), rs.getDouble("value"));
+                decoration = new Decoration(rs.getString("name"), rs.getString("material"), rs.getDouble("value"), rs.getInt("room_id"));
                 decoration.setId(rs.getInt("id"));
-                decoration.setRoomId(rs.getInt("room_id"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -41,9 +40,8 @@ public class DecorationDao implements GenericDao<Decoration> {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Decoration decoration = new Decoration(rs.getString("name"), rs.getString("material"), rs.getDouble("value"));
+                Decoration decoration = new Decoration(rs.getString("name"), rs.getString("material"), rs.getDouble("value"), rs.getInt("room_id"));
                 decoration.setId(rs.getInt("id"));
-                decoration.setRoomId(rs.getInt("room_id"));
                 decorations.add(decoration);
             }
         } catch (SQLException e) {

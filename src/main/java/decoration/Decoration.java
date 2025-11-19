@@ -1,20 +1,18 @@
 package decoration;
 
-import room.Difficulty;
-
 public class Decoration {
 
     private int id;
+    private String name;
+    private String material;
+    private double value;
     private int roomId;
 
-    private final String name;
-    private final String material;
-    private final double value;
-
-    public Decoration(String name, String material, double value) {
+    public Decoration(String name, String material, double value, int roomId) {
         this.name = name;
         this.material = material;
         this.value = value;
+        this.roomId = roomId;
     }
 
     public int getId() {
@@ -29,12 +27,24 @@ public class Decoration {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getMaterial() {
         return material;
     }
 
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
     public double getValue() {
         return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 
     public int getRoomId() {

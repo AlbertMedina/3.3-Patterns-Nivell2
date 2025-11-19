@@ -9,6 +9,19 @@ public class Room {
     private int escapeRoomId;
 
     public Room(String name, Difficulty difficulty, double price, int escapeRoomId) {
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid name");
+        }
+
+        if (difficulty == null) {
+            throw new IllegalArgumentException("Invalid difficulty");
+        }
+
+        if (price >= 0) {
+            throw new IllegalArgumentException("Invalid price");
+        }
+
         this.name = name;
         this.difficulty = difficulty;
         this.price = price;

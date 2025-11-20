@@ -71,4 +71,9 @@ public class Ticket {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", date: " + date + ", price: " + price + ", room id: " + roomId + ", user id: " + userId + " }";
+    }
 }

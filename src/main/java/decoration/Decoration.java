@@ -76,4 +76,9 @@ public class Decoration {
     public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", material: " + material + ", value: " + value + ", room id: " + roomId + " }";
+    }
 }

@@ -82,12 +82,6 @@ public class Reward {
 
     @Override
     public String toString() {
-        return "Reward{" +
-                "id = " + id +
-                ", name = '" + name + '\'' +
-                ", description = '" + description + '\'' +
-                ", date = " + date +
-                ", userId = " + userId +
-                '}';
+        return "Decoration { id: " + id + ", name: " + name + ", description: " + description + ", date: " + date + ", user id: " + userId + " }";
     }
 }

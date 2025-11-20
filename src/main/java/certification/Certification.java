@@ -71,4 +71,9 @@ public class Certification {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", date: " + date + ", room id: " + roomId + ", user id: " + userId + " }";
+    }
 }

@@ -76,4 +76,9 @@ public class Room {
     public void setEscapeRoomId(int escapeRoomId) {
         this.escapeRoomId = escapeRoomId;
     }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", difficulty: " + difficulty + ", price: " + price + ", escape room id: " + escapeRoomId + " }";
+    }
 }

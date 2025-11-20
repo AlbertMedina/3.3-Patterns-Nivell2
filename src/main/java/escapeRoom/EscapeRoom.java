@@ -11,7 +11,7 @@ public class EscapeRoom {
         if (name == null || name.trim().isEmpty()) {
             throw new InvalidNameException();
         }
-        
+
         this.name = name;
     }
 
@@ -36,6 +36,6 @@ public class EscapeRoom {
 
     @Override
     public String toString() {
-        return "EscapeRoom{id=" + id + ", name='" + name + "'}";
+        return "EscapeRoom { id: " + id + ", name: " + name + " }";
     }
 }

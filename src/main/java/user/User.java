@@ -66,4 +66,9 @@ public class User {
         }
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", surnames: " + surnames + ", email: " + email + " }";
+    }
 }

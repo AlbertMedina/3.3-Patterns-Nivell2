@@ -10,7 +10,7 @@ import java.util.List;
 public class RewardDaoImpl implements GenericDao<Reward> {
 
     private Connection getConnection() throws SQLException {
-        return DBConnection.getConnection();
+        return DBConnection.getInstance().getConnection();
     }
 
     private Reward map(ResultSet resultSet) throws SQLException {

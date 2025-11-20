@@ -1,4 +1,4 @@
-package Hint;
+package hint;
 
 import db.DBConnection;
 import db.GenericDao;
@@ -11,7 +11,7 @@ import java.util.List;
 public class HintDaoImpl implements GenericDao<Hint> {
 
     private Connection getConnection() throws SQLException {
-        return DBConnection.getConnection();
+        return DBConnection.getInstance().getConnection();
     }
 
     private Hint map(ResultSet resultSet) throws SQLException {

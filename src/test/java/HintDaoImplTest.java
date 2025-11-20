@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import Hint.Hint;
-import Hint.HintDaoImpl;
+import hint.Hint;
+import hint.HintDaoImpl;
 import db.DBConnection;
 import org.junit.jupiter.api.*;
 

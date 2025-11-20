@@ -1,4 +1,4 @@
-package Hint;
+package hint;
 
 public class Hint {
 
@@ -18,13 +18,12 @@ public class Hint {
             throw new IllegalArgumentException("Theme can not be null or empty");
         }
         this.theme = theme;
-        if (value < 0 ) {
+        if (value < 0) {
             throw new IllegalArgumentException("Value can not be negative");
         }
         this.value = value;
         this.roomId = roomId;
     }
-
 
 
     public int getId() {

@@ -21,11 +21,11 @@ package model {
         - name : String
         - difficulty : Difficulty
         - price : double
-        - hints : List<Hint>
+        - hints : List<hint>
         - decorations : List<Decoration>
         - escapeRoomId : int
-        + addHint(Hint) : void
-        + removeHint(Hint) : void
+        + addHint(hint) : void
+        + removeHint(hint) : void
         + addDecoration(Decoration) : void
         + removeDecoration(Decoration) : void
     }
@@ -36,7 +36,7 @@ package model {
         HARD
     }
 
-    class Hint {
+    class hint {
         - id : int
         - text : String
         - theme : String
@@ -85,7 +85,7 @@ Main --> MenuHandler
 MenuHandler --> service.EscapeRoomService
 MenuHandler --> service.UserService
 model.escapeRoom "1" --> "*" model.Room
-model.Room "1" --> "*" model.Hint
+model.Room "1" --> "*" model.hint
 model.Room "0" --> "*" model.Decoration
 model.User "0" --> "*" model.Ticket
 model.User "0" --> "*" model.Reward

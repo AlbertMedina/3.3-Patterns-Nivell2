@@ -3,6 +3,7 @@ package db;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,34 +11,39 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private static final String PROPERTIES_FILE_PATH = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "db.properties";
+    private static DBConnection instance;
 
-    private static String dbUrl;
-    private static String dbUser;
-    private static String dbPassword;
+    private String url;
+    private String user;
+    private String password;
 
-    public DBConnection(){
+    private DBConnection() {
         try {
-            Properties properties = loadProperties(PROPERTIES_FILE_PATH);
+            Properties properties = new Properties();
+            InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties");
+            properties.load(input);
+
             String dbName = properties.getProperty("name");
             String dbPort = properties.getProperty("port");
-            dbUrl = "jdbc:mysql://localhost:" + dbPort + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
-            dbUser = properties.getProperty("user");
-            dbPassword = properties.getProperty("password");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            this.user = properties.getProperty("user");
+            this.password = properties.getProperty("password");
+
+            this.url = "jdbc:mysql://localhost:" + dbPort + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error to connect with data base.", e);
         }
     }
 
-    private Properties loadProperties(String path) throws IOException {
-        Properties properties = new Properties();
-        try (FileInputStream inputStream = new FileInputStream(path)) {
-            properties.load(inputStream);
+    public static synchronized DBConnection getInstance() {
+        if (instance == null) {
+            instance = new DBConnection();
         }
-        return properties;
+        return instance;
     }
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
     }
 }
+

@@ -21,17 +21,6 @@ public class EscapeRoom {
         this.name = name;
     }
 
-    public EscapeRoom(int id, String name) {
-        if (id <= 0) {
-            throw new ErrorOnIdException();
-        }
-        if (name == null || name.isBlank()) {
-            throw new InvalidNameException();
-        }
-
-        this.id = id;
-        this.name = name;
-    }
 
     public int getId() {
         return id;

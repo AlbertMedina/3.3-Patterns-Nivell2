@@ -20,10 +20,9 @@ public class EscapeRoomDAO implements GenericDao<EscapeRoom> {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new EscapeRoom(
-                            rs.getInt("id"),
-                            rs.getString("name")
-                    );
+                    EscapeRoom escapeRoom = new EscapeRoom(rs.getString("name"));
+                    escapeRoom.setId(rs.getInt("id"));
+                            return escapeRoom;
                 }
             }
 
@@ -44,10 +43,9 @@ public class EscapeRoomDAO implements GenericDao<EscapeRoom> {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                escapeRoomList.add(new EscapeRoom(
-                        rs.getInt("id"),
-                        rs.getString("name")
-                ));
+                EscapeRoom escapeRoom = new EscapeRoom(rs.getString("name"));
+                escapeRoom.setId(rs.getInt("id"));
+                escapeRoomList.add(escapeRoom);
             }
 
         } catch (SQLException e) {

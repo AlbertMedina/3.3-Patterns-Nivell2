@@ -13,7 +13,7 @@ public class TicketDao implements GenericDao<Ticket> {
     public Ticket findById(int id) {
         String sqlQuery = "SELECT * FROM ticket WHERE id = ?";
         Ticket ticket = null;
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
 
             ps.setInt(1, id);
@@ -35,12 +35,12 @@ public class TicketDao implements GenericDao<Ticket> {
 
         List<Ticket> tickets = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlQuery);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Ticket ticket = ticket = new Ticket(rs.getDate("date").toLocalDate(), rs.getDouble("price"), rs.getInt("room_id"), rs.getInt("user_id"));
+                Ticket ticket = new Ticket(rs.getDate("date").toLocalDate(), rs.getDouble("price"), rs.getInt("room_id"), rs.getInt("user_id"));
                 ticket.setId(rs.getInt("id"));
                 tickets.add(ticket);
             }
@@ -53,7 +53,7 @@ public class TicketDao implements GenericDao<Ticket> {
     @Override
     public boolean insert(Ticket element) {
         String sql = "INSERT INTO ticket (date, price, room_id, user_id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setDate(1, Date.valueOf(element.getDate()));
@@ -80,7 +80,7 @@ public class TicketDao implements GenericDao<Ticket> {
     public boolean update(Ticket element) {
         String sql = "UPDATE ticket SET date = ?, price = ?, room_id = ?, user_id = ? WHERE id = ?";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setDate(1, Date.valueOf(element.getDate()));
@@ -101,7 +101,7 @@ public class TicketDao implements GenericDao<Ticket> {
     public boolean delete(int id) {
         String sqlQuery = "DELETE FROM ticket WHERE id = ?";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
 
             ps.setInt(1, id);

@@ -9,7 +9,7 @@ class MenuHandler{
 }
 
 package model {
-    class EscapeRoom {
+    class escapeRoom {
         - id : int
         - name : String
         - rooms : List<Room>
@@ -84,7 +84,7 @@ package service {
 Main --> MenuHandler
 MenuHandler --> service.EscapeRoomService
 MenuHandler --> service.UserService
-model.EscapeRoom "1" --> "*" model.Room
+model.escapeRoom "1" --> "*" model.Room
 model.Room "1" --> "*" model.Hint
 model.Room "0" --> "*" model.Decoration
 model.User "0" --> "*" model.Ticket

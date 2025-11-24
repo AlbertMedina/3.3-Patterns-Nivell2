@@ -7,14 +7,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketDao implements GenericDao<Ticket> {
+public class TicketDaoImpl implements GenericDao<Ticket> {
 
     @Override
     public Ticket findById(int id) {
-        String sqlQuery = "SELECT * FROM ticket WHERE id = ?";
+        String sql = "SELECT * FROM ticket WHERE id = ?";
+
         Ticket ticket = null;
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -26,17 +28,18 @@ public class TicketDao implements GenericDao<Ticket> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return ticket;
     }
 
     @Override
     public List<Ticket> findAll() {
-        String sqlQuery = "SELECT * FROM ticket";
+        String sql = "SELECT * FROM ticket";
 
         List<Ticket> tickets = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery);
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -47,13 +50,15 @@ public class TicketDao implements GenericDao<Ticket> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return tickets;
     }
 
     @Override
     public boolean insert(Ticket element) {
         String sql = "INSERT INTO ticket (date, price, room_id, user_id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
+
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setDate(1, Date.valueOf(element.getDate()));
@@ -73,6 +78,7 @@ public class TicketDao implements GenericDao<Ticket> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
@@ -80,7 +86,7 @@ public class TicketDao implements GenericDao<Ticket> {
     public boolean update(Ticket element) {
         String sql = "UPDATE ticket SET date = ?, price = ?, room_id = ?, user_id = ? WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setDate(1, Date.valueOf(element.getDate()));
@@ -94,15 +100,16 @@ public class TicketDao implements GenericDao<Ticket> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        String sqlQuery = "DELETE FROM ticket WHERE id = ?";
+        String sql = "DELETE FROM ticket WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -111,7 +118,11 @@ public class TicketDao implements GenericDao<Ticket> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
-}
 
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
+    }
+}

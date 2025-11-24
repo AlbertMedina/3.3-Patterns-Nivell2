@@ -7,14 +7,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDao implements GenericDao<Room> {
+public class RoomDaoImpl implements GenericDao<Room> {
 
     @Override
     public Room findById(int id) {
-        String sqlQuery = "SELECT * FROM room WHERE id = ?";
+        String sql = "SELECT * FROM room WHERE id = ?";
+
         Room room = null;
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -26,17 +28,18 @@ public class RoomDao implements GenericDao<Room> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return room;
     }
 
     @Override
     public List<Room> findAll() {
-        String sqlQuery = "SELECT * FROM room";
+        String sql = "SELECT * FROM room";
 
         List<Room> rooms = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery);
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -47,13 +50,15 @@ public class RoomDao implements GenericDao<Room> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return rooms;
     }
 
     @Override
     public boolean insert(Room element) {
         String sql = "INSERT INTO room (name, difficulty, price, escape_room_id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
+
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, element.getName());
@@ -73,6 +78,7 @@ public class RoomDao implements GenericDao<Room> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
@@ -80,7 +86,7 @@ public class RoomDao implements GenericDao<Room> {
     public boolean update(Room element) {
         String sql = "UPDATE room SET name = ?, difficulty = ?, price = ?, escape_room_id = ? WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, element.getName());
@@ -94,15 +100,16 @@ public class RoomDao implements GenericDao<Room> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        String sqlQuery = "DELETE FROM room WHERE id = ?";
+        String sql = "DELETE FROM room WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -111,6 +118,11 @@ public class RoomDao implements GenericDao<Room> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
     }
 }

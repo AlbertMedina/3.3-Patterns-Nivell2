@@ -16,7 +16,7 @@ public class Ticket {
             throw new IllegalArgumentException("Invalid date");
         }
 
-        if (price >= 0) {
+        if (price <= 0) {
             throw new IllegalArgumentException("Invalid price");
         }
 
@@ -35,6 +35,9 @@ public class Ticket {
     }
 
     public LocalDate getDate() {
+        if (date == null) {
+            throw new IllegalArgumentException("Invalid date");
+        }
         return date;
     }
 
@@ -47,6 +50,9 @@ public class Ticket {
     }
 
     public void setPrice(double price) {
+        if (price <= 0) {
+            throw new IllegalArgumentException("Invalid price");
+        }
         this.price = price;
     }
 
@@ -64,5 +70,10 @@ public class Ticket {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", date: " + date + ", price: " + price + ", room id: " + roomId + ", user id: " + userId + " }";
     }
 }

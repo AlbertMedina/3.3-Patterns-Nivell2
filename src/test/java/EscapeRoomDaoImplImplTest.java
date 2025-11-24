@@ -1,24 +1,21 @@
 import db.DBConnection;
 import escapeRoom.EscapeRoom;
-import escapeRoom.EscapeRoomDAO;
-import org.junit.jupiter.api.BeforeAll;
+import escapeRoom.EscapeRoomDaoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EscapeRoomDAOTest {
+public class EscapeRoomDaoImplImplTest {
 
-    private static EscapeRoomDAO dao;
+    private static EscapeRoomDaoImpl dao;
 
     @BeforeEach
     void setUp() throws Exception {
-        dao = new EscapeRoomDAO();
+        dao = new EscapeRoomDaoImpl();
 
         Connection conn = DBConnection.getInstance().getConnection();
         Statement stmt = conn.createStatement();

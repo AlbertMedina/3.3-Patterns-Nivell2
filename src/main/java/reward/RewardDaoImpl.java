@@ -9,59 +9,48 @@ import java.util.List;
 
 public class RewardDaoImpl implements GenericDao<Reward> {
 
-    private Connection getConnection() throws SQLException {
-        return DBConnection.getInstance().getConnection();
-    }
-
-    private Reward map(ResultSet resultSet) throws SQLException {
-        Reward reward = new Reward(
-                resultSet.getString("name"),
-                resultSet.getString("description"),
-                resultSet.getDate("date").toLocalDate(),
-                resultSet.getInt("user_id")
-        );
-        reward.setId(resultSet.getInt("id"));
-        return reward;
-    }
-
     @Override
     public Reward findById(int id) {
-
         String sql = "SELECT * FROM reward WHERE id = ?";
 
+        Reward reward = null;
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, id);
+            ps.setInt(1, id);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return map(resultSet);
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                reward = new Reward(rs.getString("name"), rs.getString("description"), rs.getDate("date").toLocalDate(), rs.getInt("user_id"));
+                reward.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
             System.out.println("Error finding Reward by ID: " + e.getMessage());
         }
-        return null;
+
+        return reward;
     }
 
     @Override
     public List<Reward> findAll() {
-
-        List<Reward> rewards = new ArrayList<>();
         String sql = "SELECT * FROM reward";
 
+        List<Reward> rewards = new ArrayList<>();
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            while (resultSet.next()) {
-                rewards.add(map(resultSet));
+            while (rs.next()) {
+                Reward reward = new Reward(rs.getString("name"), rs.getString("description"), rs.getDate("date").toLocalDate(), rs.getInt("user_id"));
+                reward.setId(rs.getInt("id"));
+                rewards.add(reward);
             }
-
         } catch (SQLException e) {
             System.out.println("Error fetching Rewards: " + e.getMessage());
         }
+
         return rewards;
     }
 
@@ -70,68 +59,71 @@ public class RewardDaoImpl implements GenericDao<Reward> {
         String sql = "INSERT INTO reward (name, description, date, user_id) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, reward.getName());
-            statement.setString(2, reward.getDescription());
-            statement.setDate(3, Date.valueOf(reward.getDate()));
-            statement.setInt(4, reward.getUserId());
+            ps.setString(1, reward.getName());
+            ps.setString(2, reward.getDescription());
+            ps.setDate(3, Date.valueOf(reward.getDate()));
+            ps.setInt(4, reward.getUserId());
 
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                ResultSet keys = statement.getGeneratedKeys();
-                if (keys.next()) {
-                    reward.setId(keys.getInt(1));
-                }
-                return true;
+            int rowsAffected = ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                reward.setId(rs.getInt(1));
             }
+
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
             System.out.println("Error inserting Reward: " + e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean update(Reward reward) {
-
-        String sql = """
-                UPDATE reward
-                SET name = ?, description = ?, date = ?, user_id = ?
-                WHERE id = ?
-                """;
+        String sql = "UPDATE reward SET name = ?, description = ?, date = ?, user_id = ? vWHERE id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setString(1, reward.getName());
-            statement.setString(2, reward.getDescription());
-            statement.setDate(3, Date.valueOf(reward.getDate()));
-            statement.setInt(4, reward.getUserId());
-            statement.setInt(5, reward.getId());
+            ps.setString(1, reward.getName());
+            ps.setString(2, reward.getDescription());
+            ps.setDate(3, Date.valueOf(reward.getDate()));
+            ps.setInt(4, reward.getUserId());
+            ps.setInt(5, reward.getId());
 
-            return statement.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Error updating Reward: " + e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-
         String sql = "DELETE FROM reward WHERE id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, id);
-            return statement.executeUpdate() > 0;
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Error deleting Reward: " + e.getMessage());
         }
+
         return false;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
     }
 }
 

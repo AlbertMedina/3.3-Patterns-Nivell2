@@ -10,129 +10,120 @@ import java.util.List;
 
 public class HintDaoImpl implements GenericDao<Hint> {
 
-    private Connection getConnection() throws SQLException {
-        return DBConnection.getInstance().getConnection();
-    }
-
-    private Hint map(ResultSet resultSet) throws SQLException {
-        Hint hint = new Hint(
-                resultSet.getString("text"),
-                resultSet.getString("theme"),
-                resultSet.getDouble("value"),
-                resultSet.getInt("room_id")
-        );
-        hint.setId(resultSet.getInt("id"));
-        return hint;
-    }
-
     @Override
     public Hint findById(int id) {
         String sql = "Select * From hint WHERE id = ?";
 
+        Hint hint = null;
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, id);
+            ps.setInt(1, id);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return map(resultSet);
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                hint = new Hint(rs.getString("text"), rs.getString("theme"), rs.getDouble("value"), rs.getInt("room_id"));
+                hint.setId(rs.getInt("id"));
             }
-
         } catch (SQLException e) {
             System.out.println("Error finding Hint by ID: " + e.getMessage());
         }
-        return null;
+
+        return hint;
     }
 
     @Override
     public List<Hint> findAll() {
-        List<Hint> hints = new ArrayList<>();
         String sql = "SELECT * FROM hint";
 
+        List<Hint> hints = new ArrayList<>();
+
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery(sql)) {
 
-            while (resultSet.next()) {
-                hints.add(map(resultSet));
+            while (rs.next()) {
+                Hint hint = new Hint(rs.getString("text"), rs.getString("theme"), rs.getDouble("value"), rs.getInt("room_id"));
+                hint.setId(rs.getInt("id"));
+                hints.add(hint);
             }
-
         } catch (SQLException e) {
             System.out.println("Error fetching Hints: " + e.getMessage());
         }
+
         return hints;
     }
 
     @Override
     public boolean insert(Hint hint) {
-
         String sql = "INSERT INTO hint (text, theme, value, room_id) VALUES (?,?,?,?)";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, hint.getText());
-            statement.setString(2, hint.getTheme());
-            statement.setDouble(3, hint.getValue());
-            statement.setInt(4, hint.getRoomId());
+            ps.setString(1, hint.getText());
+            ps.setString(2, hint.getTheme());
+            ps.setDouble(3, hint.getValue());
+            ps.setInt(4, hint.getRoomId());
 
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                ResultSet keys = statement.getGeneratedKeys();
-                if (keys.next()) {
-                    hint.setId(keys.getInt(1));
-                }
-                return true;
+            int rowsAffected = ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                hint.setId(rs.getInt(1));
             }
+
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
             System.out.println("Error inserting" + e.getMessage());
-
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-
         String sql = "DELETE FROM hint WHERE id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, id);
-            return statement.executeUpdate() > 0;
+            ps.setInt(1, id);
 
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Error deleting Hint: " + e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean update(Hint hint) {
-        String sql = """
-                UPDATE hint
-                SET text = ?, theme = ?, value = ?, room_id = ?
-                WHERE id = ?
-                """;
+        String sql = " UPDATE hint SET text = ?, theme = ?, value = ?, room_id = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            statement.setString(1, hint.getText());
-            statement.setString(2, hint.getTheme());
-            statement.setDouble(3, hint.getValue());
-            statement.setInt(4, hint.getRoomId());
-            statement.setInt(5, hint.getId());
+            ps.setString(1, hint.getText());
+            ps.setString(2, hint.getTheme());
+            ps.setDouble(3, hint.getValue());
+            ps.setInt(4, hint.getRoomId());
+            ps.setInt(5, hint.getId());
 
-            return statement.executeUpdate() > 0;
+            return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
             System.out.println("Error updating" + e.getMessage());
         }
+
         return false;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
     }
 }

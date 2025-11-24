@@ -16,8 +16,6 @@ public class HintDaoImplTest {
     @BeforeEach
     public void setup() {
         hintDao = new HintDaoImpl();
-        new DBConnection();
-
     }
 
     @Test
@@ -74,9 +72,7 @@ public class HintDaoImplTest {
     @Test
     void testConnection() {
 
-        new DBConnection();
-
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = DBConnection.getInstance().getConnection()) {
             assertNotNull(connection);
             assertFalse(connection.isClosed());
         } catch (SQLException e) {

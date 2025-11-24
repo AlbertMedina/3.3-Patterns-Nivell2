@@ -39,6 +39,9 @@ public class Certification {
     }
 
     public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid name");
+        }
         this.name = name;
     }
 
@@ -47,6 +50,9 @@ public class Certification {
     }
 
     public void setDate(LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("Invalid date");
+        }
         this.date = date;
     }
 
@@ -64,5 +70,10 @@ public class Certification {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", date: " + date + ", room id: " + roomId + ", user id: " + userId + " }";
     }
 }

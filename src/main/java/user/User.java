@@ -39,6 +39,9 @@ public class User {
     }
 
     public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid name");
+        }
         this.name = name;
     }
 
@@ -47,6 +50,9 @@ public class User {
     }
 
     public void setSurnames(String surnames) {
+        if (surnames == null || surnames.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid surname(s)");
+        }
         this.surnames = surnames;
     }
 
@@ -55,6 +61,14 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (email == null || email.trim().isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}$")) {
+            throw new IllegalArgumentException("Invalid email");
+        }
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Decoration { id: " + id + ", name: " + name + ", surnames: " + surnames + ", email: " + email + " }";
     }
 }

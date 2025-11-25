@@ -1,11 +1,11 @@
 import db.DBConnection;
 import escapeRoom.EscapeRoom;
-import escapeRoom.EscapeRoomDAO;
+import escapeRoom.EscapeRoomDaoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import room.Difficulty;
 import room.Room;
-import room.RoomDao;
+import room.RoomDaoImpl;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class RoomDAOTest {
 
     private int escapeRoomID;
-    private static RoomDao dao;
+    private static RoomDaoImpl dao;
 
     @BeforeEach
     void setUp() throws Exception {
-        dao = new RoomDao();
+        dao = new RoomDaoImpl();
 
         Connection conn = DBConnection.getInstance().getConnection();
         Statement stmt = conn.createStatement();
@@ -31,7 +31,7 @@ public class RoomDAOTest {
         stmt.execute("ALTER TABLE room AUTO_INCREMENT = 1");
         stmt.execute("ALTER TABLE escape_room AUTO_INCREMENT = 1");
 
-        EscapeRoomDAO dao1 = new EscapeRoomDAO();
+        EscapeRoomDaoImpl dao1 = new EscapeRoomDaoImpl();
         dao1.insert(new EscapeRoom("EscapeRoom52"));
 
 

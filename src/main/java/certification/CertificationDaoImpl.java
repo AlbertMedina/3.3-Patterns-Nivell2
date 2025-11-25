@@ -7,14 +7,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CertificationDao implements GenericDao<Certification> {
+public class CertificationDaoImpl implements GenericDao<Certification> {
 
     @Override
     public Certification findById(int id) {
-        String sqlQuery = "SELECT * FROM certification WHERE id = ?";
+        String sql = "SELECT * FROM certification WHERE id = ?";
+
         Certification certification = null;
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -26,17 +28,18 @@ public class CertificationDao implements GenericDao<Certification> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return certification;
     }
 
     @Override
     public List<Certification> findAll() {
-        String sqlQuery = "SELECT * FROM certification";
+        String sql = "SELECT * FROM certification";
 
         List<Certification> certifications = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery);
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -47,13 +50,15 @@ public class CertificationDao implements GenericDao<Certification> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return certifications;
     }
 
     @Override
     public boolean insert(Certification element) {
         String sql = "INSERT INTO certification (name, date, room_id, user_id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
+
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, element.getName());
@@ -73,6 +78,7 @@ public class CertificationDao implements GenericDao<Certification> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
@@ -80,7 +86,7 @@ public class CertificationDao implements GenericDao<Certification> {
     public boolean update(Certification element) {
         String sql = "UPDATE certification SET name = ?, date = ?, room_id = ?, user_id = ? WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, element.getName());
@@ -94,15 +100,16 @@ public class CertificationDao implements GenericDao<Certification> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        String sqlQuery = "DELETE FROM certification WHERE id = ?";
+        String sql = "DELETE FROM certification WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -111,7 +118,11 @@ public class CertificationDao implements GenericDao<Certification> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
-}
 
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
+    }
+}

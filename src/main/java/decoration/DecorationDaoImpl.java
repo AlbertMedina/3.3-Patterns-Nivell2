@@ -7,14 +7,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DecorationDao implements GenericDao<Decoration> {
+public class DecorationDaoImpl implements GenericDao<Decoration> {
 
     @Override
     public Decoration findById(int id) {
-        String sqlQuery = "SELECT * FROM decoration WHERE id = ?";
+        String sql = "SELECT * FROM decoration WHERE id = ?";
+
         Decoration decoration = null;
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -26,17 +28,18 @@ public class DecorationDao implements GenericDao<Decoration> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return decoration;
     }
 
     @Override
     public List<Decoration> findAll() {
-        String sqlQuery = "SELECT * FROM decoration";
+        String sql = "SELECT * FROM decoration";
 
         List<Decoration> decorations = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery);
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
@@ -47,13 +50,15 @@ public class DecorationDao implements GenericDao<Decoration> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return decorations;
     }
 
     @Override
     public boolean insert(Decoration element) {
         String sql = "INSERT INTO decoration (name, material, value, room_id) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DBConnection.getInstance().getConnection();
+
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, element.getName());
@@ -73,6 +78,7 @@ public class DecorationDao implements GenericDao<Decoration> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
@@ -80,7 +86,7 @@ public class DecorationDao implements GenericDao<Decoration> {
     public boolean update(Decoration element) {
         String sql = "UPDATE decoration SET name = ?, material = ?, value = ?, room_id = ? WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, element.getName());
@@ -94,15 +100,16 @@ public class DecorationDao implements GenericDao<Decoration> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        String sqlQuery = "DELETE FROM decoration WHERE id = ?";
+        String sql = "DELETE FROM decoration WHERE id = ?";
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
@@ -111,7 +118,11 @@ public class DecorationDao implements GenericDao<Decoration> {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+
         return false;
     }
-}
 
+    private Connection getConnection() throws SQLException {
+        return DBConnection.getInstance().getConnection();
+    }
+}

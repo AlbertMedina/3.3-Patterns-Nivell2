@@ -37,13 +37,13 @@ public class DecorationService {
         return decorationDao.insert(decoration);
     }
 
-    public boolean updateDecoration(String name, String material, double value, int roomId) {
-        Room room = roomDao.findById(roomId);
+    public boolean updateDecoration(String newName, String newMaterial, double newValue, int newRoomId) {
+        Room room = roomDao.findById(newRoomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + roomId + " does not exist");
+            throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
         }
 
-        Decoration decoration = new Decoration(name, material, value, roomId);
+        Decoration decoration = new Decoration(newName, newMaterial, newValue, newRoomId);
         return decorationDao.update(decoration);
     }
 

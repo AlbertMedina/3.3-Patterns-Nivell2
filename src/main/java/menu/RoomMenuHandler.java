@@ -5,7 +5,6 @@ import decoration.DecorationService;
 import hint.Hint;
 import hint.HintService;
 import input.InputHandler;
-import room.Difficulty;
 import room.Room;
 import room.RoomService;
 

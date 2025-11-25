@@ -44,6 +44,11 @@ public class TicketService {
     }
 
     public boolean updateTicket(int id, LocalDate newDate, double newPrice, int newRoomId, int newUserId) {
+        Ticket ticket = ticketDao.findById(id);
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket with id " + id + " does not exist");
+        }
+
         Room room = roomDao.findById(newRoomId);
         if (room == null) {
             throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
@@ -54,8 +59,11 @@ public class TicketService {
             throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
         }
 
-        Ticket ticket = new Ticket(newDate, newPrice, newRoomId, newUserId);
-        ticket.setId(id);
+        ticket.setDate(newDate);
+        ticket.setPrice(newPrice);
+        ticket.setRoomId(newRoomId);
+        ticket.setUserId(newUserId);
+
         return ticketDao.update(ticket);
     }
 

@@ -44,6 +44,11 @@ public class CertificationService {
     }
 
     public boolean updateCertification(int id, String newName, LocalDate newDate, int newRoomId, int newUserId) {
+        Certification certification = certificationDao.findById(id);
+        if (certification == null) {
+            throw new IllegalArgumentException("Certification with id " + id + " does not exist");
+        }
+
         Room room = roomDao.findById(newRoomId);
         if (room == null) {
             throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
@@ -54,8 +59,11 @@ public class CertificationService {
             throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
         }
 
-        Certification certification = new Certification(newName, newDate, newRoomId, newUserId);
-        certification.setId(id);
+        certification.setName(newName);
+        certification.setDate(newDate);
+        certification.setRoomId(newRoomId);
+        certification.setUserId(newUserId);
+
         return certificationDao.update(certification);
     }
 

@@ -35,13 +35,21 @@ public class RewardService {
     }
 
     public boolean updateReward(int id, String newName, String newDescription, LocalDate newDate, int newUserId) {
+        Reward reward = rewardDao.findById(id);
+        if (reward == null) {
+            throw new IllegalArgumentException("Reward with id " + id + " does not exist");
+        }
+
         User user = userDao.findById(newUserId);
         if (user == null) {
             throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
         }
 
-        Reward reward = new Reward(newName, newDescription, newDate, newUserId);
-        reward.setId(id);
+        reward.setName(newName);
+        reward.setDescription(newDescription);
+        reward.setDate(newDate);
+        reward.setUserId(newUserId);
+
         return rewardDao.update(reward);
     }
 

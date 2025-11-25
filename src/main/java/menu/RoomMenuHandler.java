@@ -72,35 +72,46 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
 
     private void editRoomData() {
         System.out.println("Editing data for room Id:" + entity.getId());
+        
         String name = InputHandler.readString("Enter new name (current: " + entity.getName() + ")");
         int difficulty = InputHandler.readInt("Enter new difficulty (1-3) (current: " + entity.getDifficulty().toString().toLowerCase() + ")");
         Double price = InputHandler.readDouble("Enter new price (current: " + entity.getPrice() + ")");
         int escapeRoomId = InputHandler.readInt("Enter new escape room id (current: " + entity.getEscapeRoomId() + ")");
 
-        boolean success = roomService.updateRoom(name, Difficulty.fromInt(difficulty), price, escapeRoomId);
-        if (success) {
-            System.out.println("Data updated successfully for room Id:" + entity.getId());
-        } else {
-            System.out.println("Error updating data for room Id:" + entity.getId());
+        try {
+            boolean success = roomService.updateRoom(name, Difficulty.fromInt(difficulty), price, escapeRoomId);
+            if (success) {
+                System.out.println("Data updated successfully for room Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating data for room Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating data for room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void addHint() {
         System.out.println("Adding new hint to room Id:" + entity.getId());
+
         String text = InputHandler.readString("Enter hint text");
         String theme = InputHandler.readString("Enter hint theme");
         Double value = InputHandler.readDouble("Enter hint value");
 
-        boolean success = hintService.addHint(text, theme, value, entity.getId());
-        if (success) {
-            System.out.println("Hint added successfully to room Id:" + entity.getId());
-        } else {
-            System.out.println("Error adding hint to room Id:" + entity.getId());
+        try {
+            boolean success = hintService.addHint(text, theme, value, entity.getId());
+            if (success) {
+                System.out.println("Hint added successfully to room Id:" + entity.getId());
+            } else {
+                System.out.println("Error adding hint to room Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error adding hint to room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void manageHint() {
         int hintId = InputHandler.readInt("Enter hint Id");
+
         Hint hint = hintService.getHintById(hintId);
 
         if (hint != null) {
@@ -113,34 +124,44 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
 
     private void removeHint() {
         System.out.println("Removing hint from room Id:" + entity.getId());
+
         int hintId = InputHandler.readInt("Enter hint Id");
 
-        boolean success = hintService.removeHint(hintId);
-        if (success) {
-            System.out.println("Hint removed successfully from room Id:" + entity.getId());
-        } else {
-            System.out.println("Error removing hint from room Id:" + entity.getId());
+        try {
+            boolean success = hintService.removeHint(hintId);
+            if (success) {
+                System.out.println("Hint removed successfully from room Id:" + entity.getId());
+            } else {
+                System.out.println("Error removing hint from room Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error removing hint from room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void addDecoration() {
         System.out.println("Adding new decoration to room Id:" + entity.getId());
+
         String name = InputHandler.readString("Enter decoration name");
         String material = InputHandler.readString("Enter decoration material");
         Double value = InputHandler.readDouble("Enter decoration value");
 
-        boolean success = decorationService.addDecoration(name, material, value, entity.getId());
-        if (success) {
-            System.out.println("Decoration added successfully to room Id:" + entity.getId());
-        } else {
-            System.out.println("Error adding decoration to room Id:" + entity.getId());
+        try {
+            boolean success = decorationService.addDecoration(name, material, value, entity.getId());
+            if (success) {
+                System.out.println("Decoration added successfully to room Id:" + entity.getId());
+            } else {
+                System.out.println("Error adding decoration to room Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error adding decoration to room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void manageDecoration() {
         int decorationId = InputHandler.readInt("Enter decoration Id");
-        Decoration decoration = decorationService.getDecorationById(decorationId);
 
+        Decoration decoration = decorationService.getDecorationById(decorationId);
         if (decoration != null) {
             DecorationMenuHandler decorationMenu = new DecorationMenuHandler(decoration);
             decorationMenu.run();
@@ -151,13 +172,18 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
 
     private void removeDecoration() {
         System.out.println("Removing decoration from room Id:" + entity.getId());
+
         int decorationId = InputHandler.readInt("Enter decoration Id");
 
-        boolean success = decorationService.removeDecoration(decorationId);
-        if (success) {
-            System.out.println("Decoration removed successfully from room Id:" + entity.getId());
-        } else {
-            System.out.println("Error removing hint from room Id:" + entity.getId());
+        try {
+            boolean success = decorationService.removeDecoration(decorationId);
+            if (success) {
+                System.out.println("Decoration removed successfully from room Id:" + entity.getId());
+            } else {
+                System.out.println("Error removing hint from room Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error removing hint from room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 }

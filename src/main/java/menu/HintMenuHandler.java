@@ -41,14 +41,18 @@ public class HintMenuHandler extends EntityMenuHandler<Hint> {
         System.out.println("Editing data for hint Id:" + entity.getId());
         String text = InputHandler.readString("Enter new text (current: " + entity.getText() + ")");
         String theme = InputHandler.readString("Enter new theme (current: " + entity.getTheme() + ")");
-        Double value = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
+        double value = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
         int roomId = InputHandler.readInt("Enter new room id (current: " + entity.getRoomId() + ")");
 
-        boolean success = hintService.updateHint(text, theme, value, roomId);
-        if (success) {
-            System.out.println("Data updated successfully for hint Id:" + entity.getId());
-        } else {
-            System.out.println("Error updating data for hint Id:" + entity.getId());
+        try {
+            boolean success = hintService.updateHint(text, theme, value, roomId);
+            if (success) {
+                System.out.println("Data updated successfully for hint Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating data for hint Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating data for hint Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 }

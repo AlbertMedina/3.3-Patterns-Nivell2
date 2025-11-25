@@ -41,14 +41,18 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
         System.out.println("Editing data for decoration Id:" + entity.getId());
         String name = InputHandler.readString("Enter new name (current: " + entity.getName() + ")");
         String material = InputHandler.readString("Enter new material (current: " + entity.getMaterial() + ")");
-        Double value = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
+        double value = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
         int roomId = InputHandler.readInt("Enter new room id (current: " + entity.getRoomId() + ")");
 
-        boolean success = decorationService.updateDecoration(name, material, value, roomId);
-        if (success) {
-            System.out.println("Data updated successfully for decoration Id:" + entity.getId());
-        } else {
-            System.out.println("Error updating data for decoration Id:" + entity.getId());
+        try {
+            boolean success = decorationService.updateDecoration(name, material, value, roomId);
+            if (success) {
+                System.out.println("Data updated successfully for decoration Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating data for decoration Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating data for decoration Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 }

@@ -51,6 +51,10 @@ public class Room {
         return difficulty;
     }
 
+    public void setDifficulty(int difficultyValue) {
+        setDifficulty(Difficulty.fromInt(difficultyValue));
+    }
+
     public void setDifficulty(Difficulty difficulty) {
         if (difficulty == null) {
             throw new IllegalArgumentException("Invalid difficulty");

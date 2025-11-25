@@ -27,23 +27,23 @@ public class RoomService {
         return roomDao.findById(id);
     }
 
-    public boolean addRoom(String name, Difficulty difficulty, double price, int escapeRoomId) {
+    public boolean addRoom(String name, int difficultyValue, double price, int escapeRoomId) {
         EscapeRoom escapeRoom = escapeRoomDao.findById(escapeRoomId);
         if (escapeRoom == null) {
             throw new IllegalArgumentException("Escape room with id " + escapeRoomId + " does not exist");
         }
 
-        Room room = new Room(name, difficulty, price, escapeRoomId);
+        Room room = new Room(name, Difficulty.fromInt(difficultyValue), price, escapeRoomId);
         return roomDao.insert(room);
     }
 
-    public boolean updateRoom(int id, String newName, Difficulty newDifficulty, double newPrice, int newEscapeRoomId) {
+    public boolean updateRoom(int id, String newName, int newDifficultyValue, double newPrice, int newEscapeRoomId) {
         EscapeRoom escapeRoom = escapeRoomDao.findById(newEscapeRoomId);
         if (escapeRoom == null) {
             throw new IllegalArgumentException("Escape room with id " + newEscapeRoomId + " does not exist");
         }
 
-        Room room = new Room(newName, newDifficulty, newPrice, newEscapeRoomId);
+        Room room = new Room(newName, Difficulty.fromInt(newDifficultyValue), newPrice, newEscapeRoomId);
         room.setId(id);
         return roomDao.update(room);
     }

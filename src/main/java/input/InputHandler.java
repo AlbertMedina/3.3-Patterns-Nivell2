@@ -36,6 +36,20 @@ public class InputHandler {
         }
     }
 
+    public static Double readDouble(String message) {
+        while (true) {
+            System.out.print(message + ": ");
+            try {
+                double input = SCANNER.nextDouble();
+                SCANNER.nextLine();
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println("Format error.");
+                SCANNER.nextLine();
+            }
+        }
+    }
+
     public static void closeScanner() {
         SCANNER.close();
     }

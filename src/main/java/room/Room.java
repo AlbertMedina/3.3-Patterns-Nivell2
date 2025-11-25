@@ -18,7 +18,7 @@ public class Room {
             throw new IllegalArgumentException("Invalid difficulty");
         }
 
-        if (price >= 0) {
+        if (price <= 0) {
             throw new IllegalArgumentException("Invalid price");
         }
 

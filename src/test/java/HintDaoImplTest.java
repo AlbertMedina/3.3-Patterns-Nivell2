@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class HintDaoImplTest {
@@ -14,10 +15,11 @@ public class HintDaoImplTest {
     private HintDaoImpl hintDao;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws Exception{
         hintDao = new HintDaoImpl();
-        new DBConnection();
-
+        Connection conn = DBConnection.getInstance().getConnection();
+        Statement stmt = conn.createStatement();
+        stmt.execute("DELETE FROM hint");
     }
 
     @Test
@@ -74,9 +76,7 @@ public class HintDaoImplTest {
     @Test
     void testConnection() {
 
-        new DBConnection();
-
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = DBConnection.getInstance().getConnection()) {
             assertNotNull(connection);
             assertFalse(connection.isClosed());
         } catch (SQLException e) {

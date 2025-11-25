@@ -72,6 +72,8 @@ public class HintDaoImplTest {
     @Test
     void testConnection() {
 
+
+
         try (Connection connection = DBConnection.getInstance().getConnection()) {
             assertNotNull(connection);
             assertFalse(connection.isClosed());

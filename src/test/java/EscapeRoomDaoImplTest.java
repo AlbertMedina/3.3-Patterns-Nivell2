@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EscapeRoomDaoImplImplTest {
+public class EscapeRoomDaoImplTest {
 
     private static EscapeRoomDaoImpl dao;
 

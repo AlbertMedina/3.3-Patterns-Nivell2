@@ -84,7 +84,7 @@ public class RewardDaoImpl implements GenericDao<Reward> {
 
     @Override
     public boolean update(Reward reward) {
-        String sql = "UPDATE reward SET name = ?, description = ?, date = ?, user_id = ? vWHERE id = ?";
+        String sql = "UPDATE reward SET name = ?, description = ?, date = ?, user_id = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -4,6 +4,8 @@ import escapeRoom.EscapeRoom;
 import escapeRoom.EscapeRoomService;
 import input.InputHandler;
 
+import java.util.List;
+
 public class EscapeRoomMenuHandler extends AbstractMenuHandler {
 
     private EscapeRoomService service = new EscapeRoomService();
@@ -30,10 +32,13 @@ public class EscapeRoomMenuHandler extends AbstractMenuHandler {
                 addEscapeRoom();
                 break;
             case 3:
+                manageEscapeRoom();
                 break;
             case 4:
+                removeEscapeRoom();
                 break;
             case 5:
+                showAllRooms();
                 break;
             case 0:
                 System.out.println("Going back to main menu...");
@@ -69,6 +74,46 @@ public class EscapeRoomMenuHandler extends AbstractMenuHandler {
             System.out.println(created ? "Escape Room created" : " Could not create Escape Room");
         } catch (Exception error) {
             System.out.println("Error: " + error.getMessage());
+        }
+    }
+
+    private void manageEscapeRoom() {
+        int id = InputHandler.readInt("Enter Escape Room ID to manage");
+        EscapeRoom escapeRoom = service.getEscapeRoom(id);
+
+        if (escapeRoom == null) {
+            System.out.println("Escape Room not found");
+            return;
+        }
+        System.out.println("Managing Escape Room: " + escapeRoom.getName());
+
+        new RoomMenuHandler().run();
+    }
+
+    private void removeEscapeRoom() {
+
+        int id = InputHandler.readInt("Enter Escape Room ID to remove");
+
+        try {
+            boolean removed = service.deleteEscapeRoom(id);
+            System.out.println(removed ? "Escape Room deleted" : " Could not delete room");
+        } catch (Exception error) {
+            System.out.println("Error: " + error.getMessage());
+        }
+    }
+
+    private void showAllRooms() {
+
+        List<EscapeRoom> rooms = service.listEscapeRooms();
+
+        if (rooms.isEmpty()) {
+            System.out.println("There are no escape rooms yet.");
+            return;
+        }
+
+        System.out.println("📌 Escape Rooms:");
+        for (EscapeRoom escapeRoom : rooms) {
+            System.out.println("ID: " + escapeRoom.getId() + " | Name: " + escapeRoom.getName());
         }
     }
 }

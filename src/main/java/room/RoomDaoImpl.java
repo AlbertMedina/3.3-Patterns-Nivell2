@@ -54,6 +54,30 @@ public class RoomDaoImpl implements GenericDao<Room> {
         return rooms;
     }
 
+    public List<Room> findAllByEscapeRoom(int escapeRoomId) {
+        String sql = "SELECT * FROM room WHERE escape_room_id = ?";
+
+        List<Room> rooms = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, escapeRoomId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Room room = new Room(rs.getString("name"), Difficulty.valueOf(rs.getString("difficulty")), rs.getDouble("price"), rs.getInt("escape_room_id"));
+                    room.setId(rs.getInt("id"));
+                    rooms.add(room);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return rooms;
+    }
+
     @Override
     public boolean insert(Room element) {
         String sql = "INSERT INTO room (name, difficulty, price, escape_room_id) VALUES (?, ?, ?, ?)";

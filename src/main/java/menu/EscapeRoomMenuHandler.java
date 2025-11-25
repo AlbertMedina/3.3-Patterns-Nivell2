@@ -1,8 +1,13 @@
 package menu;
 
+import escapeRoom.EscapeRoom;
 import input.InputHandler;
 
-public class EscapeRoomMenuHandler extends AbstractMenuHandler {
+public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
+
+    public EscapeRoomMenuHandler(EscapeRoom escapeRoom) {
+        super(escapeRoom);
+    }
 
     @Override
     protected int showMenuAndReadOption() {

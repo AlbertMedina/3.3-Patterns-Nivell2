@@ -4,10 +4,15 @@ import certification.CertificationService;
 import input.InputHandler;
 import reward.RewardService;
 import ticket.TicketService;
+import user.User;
 
 import java.time.LocalDate;
 
-public class UserMenuHandler extends AbstractMenuHandler {
+public class UserMenuHandler extends EntityMenuHandler<User> {
+
+    public UserMenuHandler(User user) {
+        super(user);
+    }
 
     private RewardService rewardService = new RewardService();
     private CertificationService certificationService = new CertificationService();

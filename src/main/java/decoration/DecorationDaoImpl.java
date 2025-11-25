@@ -54,6 +54,30 @@ public class DecorationDaoImpl implements GenericDao<Decoration> {
         return decorations;
     }
 
+    public List<Decoration> findAllByRoom(int roomId) {
+        String sql = "SELECT * FROM decoration WHERE room_id = ?";
+
+        List<Decoration> decorations = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, roomId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Decoration decoration = new Decoration(rs.getString("name"), rs.getString("material"), rs.getDouble("value"), rs.getInt("room_id"));
+                    decoration.setId(rs.getInt("id"));
+                    decorations.add(decoration);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return decorations;
+    }
+
     @Override
     public boolean insert(Decoration element) {
         String sql = "INSERT INTO decoration (name, material, value, room_id) VALUES (?, ?, ?, ?)";

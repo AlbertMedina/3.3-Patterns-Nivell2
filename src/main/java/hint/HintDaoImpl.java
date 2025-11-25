@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class HintDaoImpl implements GenericDao<Hint> {
 
     @Override
@@ -50,6 +49,30 @@ public class HintDaoImpl implements GenericDao<Hint> {
             }
         } catch (SQLException e) {
             System.out.println("Error fetching Hints: " + e.getMessage());
+        }
+
+        return hints;
+    }
+
+    public List<Hint> findAllByRoom(int roomId) {
+        String sql = "SELECT * FROM hint WHERE room_id = ?";
+
+        List<Hint> hints = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, roomId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Hint hint = new Hint(rs.getString("text"), rs.getString("theme"), rs.getDouble("value"), rs.getInt("room_id"));
+                    hint.setId(rs.getInt("id"));
+                    hints.add(hint);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
 
         return hints;

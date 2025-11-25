@@ -36,13 +36,16 @@ public class InputHandler {
         }
     }
 
-    public static double readDouble(String message) {
+    public static Double readDouble(String message) {
         while (true) {
+            System.out.print(message + ": ");
             try {
-                System.out.print(message + " ");
-                return Double.parseDouble(SCANNER.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Try again.");
+                double input = SCANNER.nextDouble();
+                SCANNER.nextLine();
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println("Format error.");
+                SCANNER.nextLine();
             }
         }
     }

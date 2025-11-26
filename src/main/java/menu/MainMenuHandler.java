@@ -1,8 +1,15 @@
 package menu;
 
+import escapeRoom.EscapeRoom;
+import escapeRoom.EscapeRoomService;
 import input.InputHandler;
 
+import java.util.List;
+
 public class MainMenuHandler extends AbstractMenuHandler {
+
+    private EscapeRoomService escapeRoomService = new EscapeRoomService();
+
 
     @Override
     protected int showMenuAndReadOption() {
@@ -23,8 +30,10 @@ public class MainMenuHandler extends AbstractMenuHandler {
     protected void handleOption(int option) {
         switch (option) {
             case 1:
+                addEscapeRoom();
                 break;
             case 2:
+                manageEscapeRoom();
                 break;
             case 3:
                 break;
@@ -46,4 +55,35 @@ public class MainMenuHandler extends AbstractMenuHandler {
                 break;
         }
     }
+
+    private void addEscapeRoom() {
+        String name = InputHandler.readString("Escape Room name: ");
+        boolean create = escapeRoomService.createEscapeRoom(name);
+
+        System.out.println(create ? "Escape Room created!" : "Could not create Escape Room");
+    }
+
+    private void manageEscapeRoom() {
+
+        List<EscapeRoom> rooms = escapeRoomService.listEscapeRooms();
+        if (rooms.isEmpty()) {
+            System.out.println("No Escape Rooms available");
+            return;
+        }
+
+        System.out.println("==== Escape Rooms ====");
+        for (EscapeRoom r : rooms) {
+            System.out.println(r.getId() + " - " + r.getName());
+        }
+
+        int id = InputHandler.readInt("Enter ID to manage: ");
+        EscapeRoom select = escapeRoomService.getEscapeRoom(id);
+
+        if (select == null) {
+            System.out.println("Escape room not found.");
+            return;
+        }
+        new EscapeRoomMenuHandler(select).run();
+    }
+
 }

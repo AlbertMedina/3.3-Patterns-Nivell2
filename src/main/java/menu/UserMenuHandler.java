@@ -29,10 +29,10 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
         System.out.println("USER ID:" + entity.getId() + " (" + entity.getName() + " " + entity.getSurnames() + ")" + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit user data");
-        System.out.println("2. Purchase ticket");
-        System.out.println("3. Give certification");
-        System.out.println("4. Give reward");
-        System.out.println("5. Manage subscription");
+        System.out.println("2. " + (entity.isSubscribed() ? "Cancel subscription" : "Subscribe"));
+        System.out.println("3. Purchase ticket");
+        System.out.println("4. Give certification");
+        System.out.println("5. Give reward");
         System.out.println("0. Back");
         return InputHandler.readInt("Choose what to do next (0-5)");
     }
@@ -44,15 +44,16 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
                 editUserData();
                 break;
             case 2:
-                purchaseTicket();
+                updateSubscription(!entity.isSubscribed());
                 break;
             case 3:
-                giveCertification();
+                purchaseTicket();
                 break;
             case 4:
-                giveReward();
+                giveCertification();
                 break;
             case 5:
+                giveReward();
                 break;
             case 0:
                 System.out.println("Going back to main menu...");
@@ -137,6 +138,20 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
             System.out.println("Error purchasing ticket by user Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
+
+    private void updateSubscription(boolean subscribed) {
+        System.out.println("Updating subscription for user Id:" + entity.getId());
+
+        try {
+            boolean success = userService.updateUserSubscription(entity.getId(), subscribed);
+            if (success) {
+                entity.setSubscribed(subscribed);
+                System.out.println("Subscription updated for user Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating subscription for user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating subscription for user Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
 }
-
-

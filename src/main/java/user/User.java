@@ -6,8 +6,9 @@ public class User {
     private String name;
     private String surnames;
     private String email;
+    private boolean subscribed;
 
-    public User(String name, String surnames, String email) {
+    public User(String name, String surnames, String email, boolean subscribed) {
 
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid name");
@@ -24,6 +25,7 @@ public class User {
         this.name = name;
         this.surnames = surnames;
         this.email = email;
+        this.subscribed = subscribed;
     }
 
     public int getId() {
@@ -67,8 +69,16 @@ public class User {
         this.email = email;
     }
 
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        this.subscribed = subscribed;
+    }
+
     @Override
     public String toString() {
-        return "User { id: " + id + ", name: " + name + ", surnames: " + surnames + ", email: " + email + " }";
+        return "User { id: " + id + ", name: " + name + ", surnames: " + surnames + ", email: " + email + ", subscribed: " + (subscribed ? "yes" : "no") + " }";
     }
 }

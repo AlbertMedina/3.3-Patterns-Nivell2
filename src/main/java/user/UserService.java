@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public boolean addUser(String name, String surnames, String email) {
-        User user = new User(name, surnames, email);
+        User user = new User(name, surnames, email, false);
         return userDao.insert(user);
     }
 
@@ -38,6 +38,17 @@ public class UserService {
         user.setName(newName);
         user.setName(newSurnames);
         user.setName(newEmail);
+
+        return userDao.update(user);
+    }
+
+    public boolean updateUserSubscription(int id, boolean subscribed) {
+        User user = userDao.findById(id);
+        if (user == null) {
+            throw new IllegalArgumentException("User with id " + id + " does not exist");
+        }
+
+        user.setSubscribed(subscribed);
 
         return userDao.update(user);
     }

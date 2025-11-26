@@ -1,3 +1,5 @@
+package DaoTests;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import hint.Hint;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class HintDaoImplTest {
@@ -16,6 +19,19 @@ public class HintDaoImplTest {
     @BeforeEach
     public void setup() {
         hintDao = new HintDaoImpl();
+        try (Connection conn = DBConnection.getInstance().getConnection();
+            Statement stmt = conn.createStatement()) {
+            stmt.execute("DELETE FROM hint");
+            stmt.execute("DELETE FROM room");
+            stmt.execute("DELETE FROM escape_room");
+
+            stmt.execute("INSERT INTO escape_room (id, name) VALUES (1, 'Test Room')");
+            stmt.execute("INSERT INTO room (id, name, difficulty, price, escape_room_id) " +
+                    "VALUES (1, 'Test Room 1', 'EASY', 10.0, 1)");
+
+            } catch (SQLException e) {
+
+        }
     }
 
     @Test

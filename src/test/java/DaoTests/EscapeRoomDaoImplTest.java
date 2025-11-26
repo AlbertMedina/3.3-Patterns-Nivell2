@@ -1,3 +1,5 @@
+package DaoTests;
+
 import db.DBConnection;
 import escapeRoom.EscapeRoom;
 import escapeRoom.EscapeRoomDaoImpl;

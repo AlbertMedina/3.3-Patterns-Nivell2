@@ -72,8 +72,8 @@ DROP TABLE IF EXISTS `escape_db`.`hint` ;
 
 CREATE TABLE IF NOT EXISTS `escape_db`.`hint` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
   `text` VARCHAR(400) NOT NULL,
+  `theme` VARCHAR(100) NOT NULL,
   `value` DECIMAL(10,2) NOT NULL,
   `room_id` INT NOT NULL,
   INDEX `hint_room_idx` (`room_id` ASC) VISIBLE,

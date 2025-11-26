@@ -79,7 +79,7 @@ public class Hint {
 
     @Override
     public String toString() {
-        return "Decoration { id: " + id + ", text: " + text + ", theme: " + theme + ", value: " + value + ", room id: " + roomId + " }";
+        return "Hint { id: " + id + ", text: " + text + ", theme: " + theme + ", value: " + value + ", room id: " + roomId + " }";
     }
 }
 

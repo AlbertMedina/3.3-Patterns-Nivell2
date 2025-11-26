@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `escape_db`.`user` (
   `name` VARCHAR(100) NOT NULL,
   `surnames` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `subscribed` BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 

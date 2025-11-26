@@ -28,7 +28,7 @@ public class TicketService {
         return ticketDao.findById(id);
     }
 
-    public boolean addTicket(LocalDate date, double price, int roomId, int userId) {
+    public boolean addTicket(LocalDate date, int roomId, int userId) {
         Room room = roomDao.findById(roomId);
         if (room == null) {
             throw new IllegalArgumentException("Room with id " + roomId + " does not exist");
@@ -39,7 +39,7 @@ public class TicketService {
             throw new IllegalArgumentException("User with id " + userId + " does not exist");
         }
 
-        Ticket ticket = new Ticket(date, price, roomId, userId);
+        Ticket ticket = new Ticket(date, room.getPrice(), roomId, userId);
         return ticketDao.insert(ticket);
     }
 

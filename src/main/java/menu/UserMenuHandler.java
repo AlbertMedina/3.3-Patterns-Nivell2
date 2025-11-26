@@ -5,27 +5,34 @@ import input.InputHandler;
 import reward.RewardService;
 import ticket.TicketService;
 import user.User;
+import user.UserService;
 
 import java.time.LocalDate;
 
 public class UserMenuHandler extends EntityMenuHandler<User> {
 
+    private final UserService userService;
+    private final RewardService rewardService;
+    private final CertificationService certificationService;
+    private final TicketService ticketService;
+
     public UserMenuHandler(User user) {
         super(user);
+        userService = new UserService();
+        rewardService = new RewardService();
+        certificationService = new CertificationService();
+        ticketService = new TicketService();
     }
-
-    private RewardService rewardService = new RewardService();
-    private CertificationService certificationService = new CertificationService();
-    private TicketService ticketService = new TicketService();
 
     @Override
     protected int showMenuAndReadOption() {
+        System.out.println("USER ID:" + entity.getId() + " (" + entity.getName() + " " + entity.getSurnames() + ")" + " MENU");
         System.out.println("We can do the following:");
-        System.out.println("1. Edit room info");
-        System.out.println("2. Purchase ticket");
-        System.out.println("3. Give certification");
-        System.out.println("4. Give reward");
-        System.out.println("5. Manage subscription");
+        System.out.println("1. Edit user data");
+        System.out.println("2. " + (entity.isSubscribed() ? "Cancel subscription" : "Subscribe"));
+        System.out.println("3. Purchase ticket");
+        System.out.println("4. Give certification");
+        System.out.println("5. Give reward");
         System.out.println("0. Back");
         return InputHandler.readInt("Choose what to do next (0-5)");
     }
@@ -34,14 +41,19 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
     protected void handleOption(int option) {
         switch (option) {
             case 1:
+                editUserData();
                 break;
-            case 2: purchaseTicket();
+            case 2:
+                updateSubscription(!entity.isSubscribed());
                 break;
-            case 3: giveCertification();
+            case 3:
+                purchaseTicket();
                 break;
-            case 4: giveReward();
+            case 4:
+                giveCertification();
                 break;
             case 5:
+                giveReward();
                 break;
             case 0:
                 System.out.println("Going back to main menu...");
@@ -52,51 +64,94 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
         }
     }
 
+    private void editUserData() {
+        System.out.println("Editing data for user Id:" + entity.getId());
+
+        String newName = InputHandler.readString("Enter new name (current: " + entity.getName() + ")");
+        String newSurnames = InputHandler.readString("Enter new surnames (current: " + entity.getSurnames() + ")");
+        String newEmail = InputHandler.readString("Enter new email (current: " + entity.getEmail() + ")");
+
+        try {
+            boolean success = userService.updateUser(entity.getId(), newName, newSurnames, newEmail);
+            if (success) {
+                entity.setName(newName);
+                entity.setSurnames(newSurnames);
+                entity.setEmail(newEmail);
+                System.out.println("Data updated successfully for user Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating data for user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating data for user Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
+
     private void giveReward() {
-        System.out.println("==== GIVE REWARD ====");
-        String name = InputHandler.readString("Reward name: ");
-        String description = InputHandler.readString("Reward description: ");
-        int userId = InputHandler.readInt("User ID: ");
+        System.out.println("Giving a new reward to user Id:" + entity.getId());
 
-        boolean created = rewardService.addReward(name, description, LocalDate.now(), userId);
+        String name = InputHandler.readString("Enter reward name");
+        String description = InputHandler.readString("Enter reward description");
 
-        if (created) {
-            System.out.println("Reward created successfully!");
-        } else {
-            System.out.println("Error: reward could not be created.");
+        try {
+            boolean success = rewardService.addReward(name, description, LocalDate.now(), entity.getId());
+            if (success) {
+                System.out.println("Reward given successfully to user Id:" + entity.getId());
+            } else {
+                System.out.println("Error giving reward to user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error giving reward to user Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void giveCertification() {
-        System.out.println("==== GIVE CERTIFICATION ====");
-        String name = InputHandler.readString("Certification name:  ");
-        int roomID = InputHandler.readInt("Room ID: ");
-        int userID = InputHandler.readInt("User ID:  ");
+        System.out.println("Giving a new certification to user Id:" + entity.getId() + " for completing a room");
 
-        boolean created = certificationService.addCertification(name, LocalDate.now(), roomID, userID);
+        String name = InputHandler.readString("Enter certification name");
+        int roomId = InputHandler.readInt("Enter the Id of the completed room");
 
-        if (created) {
-            System.out.println("Certification added successfully!");
-        } else {
-            System.out.println("Error: certification could not be created.");
+        try {
+            boolean success = certificationService.addCertification(name, LocalDate.now(), roomId, entity.getId());
+            if (success) {
+                System.out.println("Certification given successfully to user Id:" + entity.getId());
+            } else {
+                System.out.println("Error giving certification to user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error giving certification to user Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 
     private void purchaseTicket() {
-        System.out.println("==== PURCHASE TICKET =====");
+        System.out.println("Purchasing ticket for user Id:" + entity.getId() + " to play a room");
 
-        int roomId = InputHandler.readInt("Room ID: ");
-        int userId = InputHandler.readInt("User ID: ");
-        double price = InputHandler.readDouble("Ticket price: ");
+        int roomId = InputHandler.readInt("Enter the Id of the room");
 
-        boolean created = ticketService.addTicket(LocalDate.now(), price, roomId, userId);
+        try {
+            boolean success = ticketService.addTicket(LocalDate.now(), roomId, entity.getId());
+            if (success) {
+                System.out.println("Ticket purchased successfully by user Id:" + entity.getId());
+            } else {
+                System.out.println("Error purchasing ticket by user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error purchasing ticket by user Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
 
-        if (created) {
-            System.out.println("Ticket purchased successfully!");
-        } else {
-            System.out.println("Error: ticket could not be purchased.");
+    private void updateSubscription(boolean subscribed) {
+        System.out.println("Updating subscription for user Id:" + entity.getId());
+
+        try {
+            boolean success = userService.updateUserSubscription(entity.getId(), subscribed);
+            if (success) {
+                entity.setSubscribed(subscribed);
+                System.out.println("Subscription updated for user Id:" + entity.getId());
+            } else {
+                System.out.println("Error updating subscription for user Id:" + entity.getId());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error updating subscription for user Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
 }
-
-

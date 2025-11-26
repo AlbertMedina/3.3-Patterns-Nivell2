@@ -74,6 +74,6 @@ public class Certification {
 
     @Override
     public String toString() {
-        return "Decoration { id: " + id + ", name: " + name + ", date: " + date + ", room id: " + roomId + ", user id: " + userId + " }";
+        return "Certification { id: " + id + ", name: " + name + ", date: " + date + ", room id: " + roomId + ", user id: " + userId + " }";
     }
 }

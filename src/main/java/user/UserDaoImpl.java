@@ -22,7 +22,7 @@ public class UserDaoImpl implements GenericDao<User> {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getString("name"), rs.getString("surnames"), rs.getString("email"));
+                user = new User(rs.getString("name"), rs.getString("surnames"), rs.getString("email"), rs.getBoolean("subscribed"));
                 user.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
@@ -43,7 +43,7 @@ public class UserDaoImpl implements GenericDao<User> {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User(rs.getString("name"), rs.getString("surnames"), rs.getString("email"));
+                User user = new User(rs.getString("name"), rs.getString("surnames"), rs.getString("email"), rs.getBoolean("subscribed"));
                 user.setId(rs.getInt("id"));
                 users.add(user);
             }
@@ -56,7 +56,7 @@ public class UserDaoImpl implements GenericDao<User> {
 
     @Override
     public boolean insert(User element) {
-        String sql = "INSERT INTO user (name, surnames, email) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO user (name, surnames, email, subscribed) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -64,6 +64,7 @@ public class UserDaoImpl implements GenericDao<User> {
             ps.setString(1, element.getName());
             ps.setString(2, element.getSurnames());
             ps.setString(3, element.getEmail());
+            ps.setBoolean(4, element.isSubscribed());
 
             int rowsAffected = ps.executeUpdate();
 
@@ -83,7 +84,7 @@ public class UserDaoImpl implements GenericDao<User> {
 
     @Override
     public boolean update(User element) {
-        String sql = "UPDATE user SET name = ?, surnames = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE user SET name = ?, surnames = ?, email = ?, subscribed = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -91,7 +92,8 @@ public class UserDaoImpl implements GenericDao<User> {
             ps.setString(1, element.getName());
             ps.setString(2, element.getSurnames());
             ps.setString(3, element.getEmail());
-            ps.setInt(4, element.getId());
+            ps.setBoolean(4, element.isSubscribed());
+            ps.setInt(5, element.getId());
 
             return ps.executeUpdate() > 0;
 

@@ -14,6 +14,7 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     private EscapeRoomService service = new EscapeRoomService();
     private RoomService roomService = new RoomService();
 
+
     public EscapeRoomMenuHandler(EscapeRoom escapeRoom) {
         super(escapeRoom);
     }
@@ -61,7 +62,7 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
         String newName = InputHandler.readString("Enter new name for Escape Room");
 
         try {
-            boolean updated = service.updateEscapeRoom(entity, newName);
+            boolean updated = service.updateEscapeRoom(newName);
             System.out.println(updated ? "Escape Room Updated" : "Could not update Escape Room");
             if (updated) {
                 entity.setName(newName);
@@ -75,14 +76,13 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
         String name = InputHandler.readString("Enter new Room name: ");
 
         int diffNumber = InputHandler.readInt("Enter difficulty (1-3): ");
-        Difficulty difficulty = Difficulty.fromInt(diffNumber);
 
         double price = InputHandler.readDouble("Enter price: ");
 
         int escapeRoomId = entity.getId();
 
         try {
-            boolean created = roomService.addRoom(name, difficulty, price, escapeRoomId);
+            boolean created = roomService.addRoom(name, diffNumber, price, escapeRoomId);
             System.out.println(created ? "Room created" : "Could not create room");
         } catch (Exception error) {
             System.out.println("Error: " + error.getMessage());

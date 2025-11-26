@@ -28,10 +28,9 @@ public class EscapeRoomService {
         return rooms;
     }
 
-    public boolean updateEscapeRoom(EscapeRoom escapeRoom, String newName) {
+    public boolean updateEscapeRoom(String newName) {
 
-        escapeRoom.setName(newName);
-        return escapeRoomDao.update(escapeRoom);
+        return escapeRoomDao.update(new EscapeRoom(newName));
     }
 
     public boolean deleteEscapeRoom(int id) {

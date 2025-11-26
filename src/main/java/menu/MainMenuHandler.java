@@ -3,12 +3,15 @@ package menu;
 import escapeRoom.EscapeRoom;
 import escapeRoom.EscapeRoomService;
 import input.InputHandler;
+import user.User;
+import user.UserService;
 
 import java.util.List;
 
 public class MainMenuHandler extends AbstractMenuHandler {
 
     private EscapeRoomService escapeRoomService = new EscapeRoomService();
+    private UserService userService = new UserService();
 
 
     @Override
@@ -36,12 +39,16 @@ public class MainMenuHandler extends AbstractMenuHandler {
                 manageEscapeRoom();
                 break;
             case 3:
+                deleteEscapeRoom();
                 break;
             case 4:
+                addUser();
                 break;
             case 5:
+                manageUsers();
                 break;
             case 6:
+                removeUser();
                 break;
             case 7:
                 break;
@@ -86,10 +93,64 @@ public class MainMenuHandler extends AbstractMenuHandler {
         new EscapeRoomMenuHandler(select).run();
     }
 
-    public void deleteEscapeRoom() {
+    private void deleteEscapeRoom() {
         int id = InputHandler.readInt("Enter ID to delete: ");
-        boolean ok = escapeRoomService.deleteEscapeRoom(id);
 
-        System.out.println(ok ? "Escape Room removed!" : "Could not delete Escape Room");
+        try {
+            boolean ok = escapeRoomService.deleteEscapeRoom(id);
+            System.out.println(ok ? "Escape Room removed!" : "Could not delete Escape Room");
+
+        } catch (Exception error) {
+            System.out.println("Error deleting Escape Room: " + error.getMessage());
+        }
+    }
+
+    private void addUser() {
+        System.out.println("==== ADD NEW USER ====");
+
+        String name = InputHandler.readString("Enter first name: ");
+        String surname = InputHandler.readString("Enter surname: ");
+        String email = InputHandler.readString("Enter email: ");
+
+        try {
+            boolean create = userService.addUser(name, surname, email);
+            System.out.println(create ? "User created succesfully!" : "Could not create user");
+
+        } catch (Exception error) {
+            System.out.println("Error creating user: " + error.getMessage());
+        }
+    }
+
+    private void manageUsers() {
+        List<User> users = userService.getUsers();
+        if (users.isEmpty()) {
+            System.out.println("No users available");
+            return;
+        }
+
+        System.out.println("==== USERS ====");
+        for (User user : users) {
+            System.out.println(user.getId() + " - " + user.getName() + " " + user.getSurnames());
+        }
+
+        int id = InputHandler.readInt("Enter ID user to manage: ");
+        User selected = userService.getUserById(id);
+
+        if (selected == null) {
+            System.out.println("User not found.");
+            return;
+        }
+        new UserMenuHandler(selected).run();
+    }
+
+    private void removeUser() {
+        int id = InputHandler.readInt("Enter ID user to delete: ");
+
+        try {
+            boolean ok = userService.deleteUser(id);
+            System.out.println(ok ? "User removed!" : "Could not delete user");
+        } catch (Exception error) {
+            System.out.println("Error deleting user: " + error.getMessage());
+        }
     }
 }

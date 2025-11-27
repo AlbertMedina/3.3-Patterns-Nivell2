@@ -40,7 +40,7 @@ public class HintDaoImpl implements GenericDao<Hint> {
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery(sql)) {
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Hint hint = new Hint(rs.getString("text"), rs.getString("theme"), rs.getDouble("value"), rs.getInt("room_id"));

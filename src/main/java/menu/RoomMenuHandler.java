@@ -53,45 +53,19 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editRoomData();
-                break;
-            case 2:
-                showHints();
-                break;
-            case 3:
-                addHint();
-                break;
-            case 4:
-                manageHint();
-                break;
-            case 5:
-                removeHint();
-                break;
-            case 6:
-                showDecorations();
-                break;
-            case 7:
-                addDecoration();
-                break;
-            case 8:
-                manageDecoration();
-                break;
-            case 9:
-                removeDecoration();
-                break;
-            case 10:
-                showTickets();
-                break;
-            case 11:
-                showCertifications();
-                break;
-            case 0:
-                System.out.println("Going back to escape room menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editRoomData();
+            case 2 -> showHints();
+            case 3 -> addHint();
+            case 4 -> manageHint();
+            case 5 -> removeHint();
+            case 6 -> showDecorations();
+            case 7 -> addDecoration();
+            case 8 -> manageDecoration();
+            case 9 -> removeDecoration();
+            case 10 -> showTickets();
+            case 11 -> showCertifications();
+            case 0 -> System.out.println("Going back to escape room menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 

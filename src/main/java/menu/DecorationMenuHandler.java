@@ -25,15 +25,9 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editDecorationData();
-                break;
-            case 0:
-                System.out.println("Going back to room menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editDecorationData();
+            case 0 -> System.out.println("Going back to room menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 

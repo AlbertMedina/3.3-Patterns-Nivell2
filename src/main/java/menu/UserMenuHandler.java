@@ -47,36 +47,16 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editUserData();
-                break;
-            case 2:
-                updateSubscription(!entity.isSubscribed());
-                break;
-            case 3:
-                purchaseTicket();
-                break;
-            case 4:
-                showTickets();
-                break;
-            case 5:
-                giveCertification();
-                break;
-            case 6:
-                showCertifications();
-                break;
-            case 7:
-                giveReward();
-                break;
-            case 8:
-                showRewards();
-                break;
-            case 0:
-                System.out.println("Going back to main menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editUserData();
+            case 2 -> updateSubscription(!entity.isSubscribed());
+            case 3 -> purchaseTicket();
+            case 4 -> showTickets();
+            case 5 -> giveCertification();
+            case 6 -> showCertifications();
+            case 7 -> giveReward();
+            case 8 -> showRewards();
+            case 0 -> System.out.println("Going back to main menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 

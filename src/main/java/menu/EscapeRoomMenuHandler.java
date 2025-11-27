@@ -12,7 +12,7 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
 
     private final EscapeRoomService escapeRoomService;
     private final RoomService roomService;
-    
+
     public EscapeRoomMenuHandler(EscapeRoom escapeRoom) {
         super(escapeRoom);
         escapeRoomService = new EscapeRoomService();
@@ -34,27 +34,13 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editEscapeRoomData();
-                break;
-            case 2:
-                addRoom();
-                break;
-            case 3:
-                manageRoom();
-                break;
-            case 4:
-                removeRoom();
-                break;
-            case 5:
-                showAllRooms();
-                break;
-            case 0:
-                System.out.println("Going back to main menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editEscapeRoomData();
+            case 2 -> addRoom();
+            case 3 -> manageRoom();
+            case 4 -> removeRoom();
+            case 5 -> showAllRooms();
+            case 0 -> System.out.println("Going back to main menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 

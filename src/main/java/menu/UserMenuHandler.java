@@ -29,7 +29,7 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("USER ID:" + entity.getId() + " (" + entity.getName() + " " + entity.getSurnames() + ")" + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit user data");
@@ -41,7 +41,6 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
         System.out.println("7. Give reward");
         System.out.println("8. Show rewards");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-8)");
     }
 
     @Override

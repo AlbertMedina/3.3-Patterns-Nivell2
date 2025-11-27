@@ -20,7 +20,7 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("We can do the following:");
         System.out.println("1. Edit escape room data");
         System.out.println("2. Add room");
@@ -28,7 +28,6 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
         System.out.println("4. Remove room");
         System.out.println("5. Show all Rooms");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-5)");
     }
 
     @Override

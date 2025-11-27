@@ -32,7 +32,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("ROOM ID:" + entity.getId() + " (" + entity.getName() + ")" + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit room data");
@@ -47,7 +47,6 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
         System.out.println("10. Show tickets");
         System.out.println("11. Show certifications");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-9)");
     }
 
     @Override

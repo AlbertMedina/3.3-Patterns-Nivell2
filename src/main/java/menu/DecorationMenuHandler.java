@@ -14,12 +14,11 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("DECORATION ID:" + entity.getId() + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit decoration data");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-1)");
     }
 
     @Override

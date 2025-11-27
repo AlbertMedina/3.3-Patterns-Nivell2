@@ -1,13 +1,17 @@
 package menu;
 
+import certification.Certification;
 import certification.CertificationService;
 import input.InputHandler;
+import reward.Reward;
 import reward.RewardService;
+import ticket.Ticket;
 import ticket.TicketService;
 import user.User;
 import user.UserService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserMenuHandler extends EntityMenuHandler<User> {
 
@@ -31,10 +35,13 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
         System.out.println("1. Edit user data");
         System.out.println("2. " + (entity.isSubscribed() ? "Cancel subscription" : "Subscribe"));
         System.out.println("3. Purchase ticket");
-        System.out.println("4. Give certification");
-        System.out.println("5. Give reward");
+        System.out.println("4. Show tickets");
+        System.out.println("5. Give certification");
+        System.out.println("6. Show certifications");
+        System.out.println("7. Give reward");
+        System.out.println("8. Show rewards");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-5)");
+        return InputHandler.readInt("Choose what to do next (0-8)");
     }
 
     @Override
@@ -50,10 +57,19 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
                 purchaseTicket();
                 break;
             case 4:
-                giveCertification();
+                showTickets();
                 break;
             case 5:
+                giveCertification();
+                break;
+            case 6:
+                showCertifications();
+                break;
+            case 7:
                 giveReward();
+                break;
+            case 8:
+                showRewards();
                 break;
             case 0:
                 System.out.println("Going back to main menu...");
@@ -152,6 +168,39 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
             }
         } catch (Exception e) {
             System.out.println("Error updating subscription for user Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
+
+    private void showTickets() {
+        List<Ticket> tickets = ticketService.getTicketsByUser(entity.getId());
+
+        if (tickets.isEmpty()) {
+            System.out.println("There are no tickets purchased by this user");
+        } else {
+            System.out.println("📌 Tickets purchased by user Id:" + entity.getId() + " (" + entity.getName() + "):");
+            tickets.forEach(System.out::println);
+        }
+    }
+
+    private void showCertifications() {
+        List<Certification> certifications = certificationService.getCertificationsByUser(entity.getId());
+
+        if (certifications.isEmpty()) {
+            System.out.println("There are no certifications granted to this user");
+        } else {
+            System.out.println("📌 Certifications granted to user Id:" + entity.getId() + " (" + entity.getName() + "):");
+            certifications.forEach(System.out::println);
+        }
+    }
+
+    private void showRewards() {
+        List<Reward> rewards = rewardService.getRewardsByUser(entity.getId());
+
+        if (rewards.isEmpty()) {
+            System.out.println("There are no rewards granted to this user");
+        } else {
+            System.out.println("📌 Rewards granted to user Id:" + entity.getId() + " (" + entity.getName() + "):");
+            rewards.forEach(System.out::println);
         }
     }
 }

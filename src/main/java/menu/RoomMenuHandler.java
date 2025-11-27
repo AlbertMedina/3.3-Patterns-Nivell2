@@ -255,7 +255,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
         if (certifications.isEmpty()) {
             System.out.println("There are no certifications granted for this room");
         } else {
-            System.out.println("📌 Certification granted for room Id:" + entity.getId() + " (" + entity.getName() + "):");
+            System.out.println("📌 Certifications granted for room Id:" + entity.getId() + " (" + entity.getName() + "):");
             certifications.forEach(System.out::println);
         }
     }

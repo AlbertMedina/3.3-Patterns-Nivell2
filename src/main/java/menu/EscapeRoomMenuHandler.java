@@ -128,11 +128,10 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     }
 
     private void showAllRooms() {
-
         List<Room> rooms = roomService.getRoomsByEscapeRoom(entity.getId());
 
         if (rooms.isEmpty()) {
-            System.out.println("There are no rooms in this escape room.");
+            System.out.println("There are no rooms in this escape room");
         } else {
             System.out.println("📌 Rooms in escape room Id:" + entity.getId() + " (" + entity.getName() + "):");
             rooms.forEach(System.out::println);

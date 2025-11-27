@@ -54,6 +54,54 @@ public class CertificationDaoImpl implements GenericDao<Certification> {
         return certifications;
     }
 
+    public List<Certification> findAllByRoom(int roomId) {
+        String sql = "SELECT * FROM certification WHERE room_id = ?";
+
+        List<Certification> certifications = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, roomId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Certification certification = new Certification(rs.getString("name"), rs.getDate("date").toLocalDate(), rs.getInt("room_id"), rs.getInt("user_id"));
+                    certification.setId(rs.getInt("id"));
+                    certifications.add(certification);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return certifications;
+    }
+
+    public List<Certification> findAllByUser(int userId) {
+        String sql = "SELECT * FROM certification WHERE user_id = ?";
+
+        List<Certification> certifications = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Certification certification = new Certification(rs.getString("name"), rs.getDate("date").toLocalDate(), rs.getInt("room_id"), rs.getInt("user_id"));
+                    certification.setId(rs.getInt("id"));
+                    certifications.add(certification);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return certifications;
+    }
+
     @Override
     public boolean insert(Certification element) {
         String sql = "INSERT INTO certification (name, date, room_id, user_id) VALUES (?, ?, ?, ?)";

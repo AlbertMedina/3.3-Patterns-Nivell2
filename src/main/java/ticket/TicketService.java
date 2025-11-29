@@ -78,4 +78,8 @@ public class TicketService {
     public boolean deleteTicket(int id) {
         return ticketDao.delete(id);
     }
+
+    public double getTicketsTotalRevenue() {
+        return getTickets().stream().mapToDouble(Ticket::getPrice).sum();
+    }
 }

@@ -1,5 +1,7 @@
 package user;
 
+import subscriber.Subscriber;
+
 import java.util.List;
 
 public class UserService {
@@ -49,6 +51,11 @@ public class UserService {
 
     public boolean deleteUser(int id) {
         return userDao.delete(id);
+    }
+
+    public void notifySubscribers(String notification) {
+        List<Subscriber> subscribers = userDao.findAllSubscribers();
+        subscribers.forEach(s -> s.receiveNotification(notification));
     }
 }
 

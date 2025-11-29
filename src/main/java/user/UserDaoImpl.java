@@ -2,6 +2,7 @@ package user;
 
 import db.DBConnection;
 import db.GenericDao;
+import subscriber.Subscriber;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -52,6 +53,30 @@ public class UserDaoImpl implements GenericDao<User> {
         }
 
         return users;
+    }
+
+    public List<Subscriber> findAllSubscribers() {
+        String sql = "SELECT * FROM user WHERE subscribed = ?";
+
+        List<Subscriber> subscribers = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setBoolean(1, true);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User(rs.getString("name"), rs.getString("surnames"), rs.getString("email"), rs.getBoolean("subscribed"));
+                    user.setId(rs.getInt("id"));
+                    subscribers.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return subscribers;
     }
 
     @Override

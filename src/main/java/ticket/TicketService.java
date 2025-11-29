@@ -24,6 +24,14 @@ public class TicketService {
         return ticketDao.findAll();
     }
 
+    public List<Ticket> getTicketsByRoom(int roomId) {
+        return ticketDao.findAllByRoom(roomId);
+    }
+
+    public List<Ticket> getTicketsByUser(int userId) {
+        return ticketDao.findAllByUser(userId);
+    }
+
     public Ticket getTicketById(int id) {
         return ticketDao.findById(id);
     }

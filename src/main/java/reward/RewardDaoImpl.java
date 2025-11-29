@@ -54,6 +54,30 @@ public class RewardDaoImpl implements GenericDao<Reward> {
         return rewards;
     }
 
+    public List<Reward> findAllByUser(int userId) {
+        String sql = "SELECT * FROM reward WHERE user_id = ?";
+
+        List<Reward> rewards = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Reward reward = new Reward(rs.getString("name"), rs.getString("description"), rs.getDate("date").toLocalDate(), rs.getInt("user_id"));
+                    reward.setId(rs.getInt("id"));
+                    rewards.add(reward);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return rewards;
+    }
+
     @Override
     public boolean insert(Reward reward) {
         String sql = "INSERT INTO reward (name, description, date, user_id) VALUES (?, ?, ?, ?)";

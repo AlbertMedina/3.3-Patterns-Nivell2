@@ -1,5 +1,7 @@
 package menu;
 
+import certification.Certification;
+import certification.CertificationService;
 import decoration.Decoration;
 import decoration.DecorationService;
 import hint.Hint;
@@ -7,65 +9,62 @@ import hint.HintService;
 import input.InputHandler;
 import room.Room;
 import room.RoomService;
+import ticket.Ticket;
+import ticket.TicketService;
+
+import java.util.List;
 
 public class RoomMenuHandler extends EntityMenuHandler<Room> {
 
-    RoomService roomService;
-    HintService hintService;
-    DecorationService decorationService;
+    private final RoomService roomService;
+    private final HintService hintService;
+    private final DecorationService decorationService;
+    private final TicketService ticketService;
+    private final CertificationService certificationService;
 
     public RoomMenuHandler(Room room) {
         super(room);
         roomService = new RoomService();
         hintService = new HintService();
         decorationService = new DecorationService();
+        ticketService = new TicketService();
+        certificationService = new CertificationService();
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("ROOM ID:" + entity.getId() + " (" + entity.getName() + ")" + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit room data");
-        System.out.println("2. Add hint");
-        System.out.println("3. Manage hint");
-        System.out.println("4. Remove hint");
-        System.out.println("5. Add decoration");
-        System.out.println("6. Manage decoration");
-        System.out.println("7. Remove decoration");
+        System.out.println("2. Show hints");
+        System.out.println("3. Add hint");
+        System.out.println("4. Manage hint");
+        System.out.println("5. Remove hint");
+        System.out.println("6. Show decorations");
+        System.out.println("7. Add decoration");
+        System.out.println("8. Manage decoration");
+        System.out.println("9. Remove decoration");
+        System.out.println("10. Show tickets");
+        System.out.println("11. Show certifications");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-7)");
     }
 
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editRoomData();
-                break;
-            case 2:
-                addHint();
-                break;
-            case 3:
-                manageHint();
-                break;
-            case 4:
-                removeHint();
-                break;
-            case 5:
-                addDecoration();
-                break;
-            case 6:
-                manageDecoration();
-                break;
-            case 7:
-                removeDecoration();
-                break;
-            case 0:
-                System.out.println("Going back to escape room menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editRoomData();
+            case 2 -> showHints();
+            case 3 -> addHint();
+            case 4 -> manageHint();
+            case 5 -> removeHint();
+            case 6 -> showDecorations();
+            case 7 -> addDecoration();
+            case 8 -> manageDecoration();
+            case 9 -> removeDecoration();
+            case 10 -> showTickets();
+            case 11 -> showCertifications();
+            case 0 -> System.out.println("Going back to escape room menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 
@@ -88,8 +87,19 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
             } else {
                 System.out.println("Error updating data for room Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error updating data for room Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
+
+    private void showHints() {
+        List<Hint> hints = hintService.getHintsByRoom(entity.getId());
+
+        if (hints.isEmpty()) {
+            System.out.println("There are no hints in this room");
+        } else {
+            System.out.println("📌 Hints in room Id:" + entity.getId() + " (" + entity.getName() + "):");
+            hints.forEach(System.out::println);
         }
     }
 
@@ -107,7 +117,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
             } else {
                 System.out.println("Error adding hint to room Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error adding hint to room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
@@ -137,8 +147,19 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
             } else {
                 System.out.println("Error removing hint from room Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error removing hint from room Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
+
+    private void showDecorations() {
+        List<Decoration> decorations = decorationService.getDecorationsByRoom(entity.getId());
+
+        if (decorations.isEmpty()) {
+            System.out.println("There are no decorations in this room");
+        } else {
+            System.out.println("📌 Decorations in room Id:" + entity.getId() + " (" + entity.getName() + "):");
+            decorations.forEach(System.out::println);
         }
     }
 
@@ -156,7 +177,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
             } else {
                 System.out.println("Error adding decoration to room Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error adding decoration to room Id:" + entity.getId() + ": " + e.getMessage());
         }
     }
@@ -185,8 +206,30 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
             } else {
                 System.out.println("Error removing hint from room Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error removing hint from room Id:" + entity.getId() + ": " + e.getMessage());
+        }
+    }
+
+    private void showTickets() {
+        List<Ticket> tickets = ticketService.getTicketsByRoom(entity.getId());
+
+        if (tickets.isEmpty()) {
+            System.out.println("There are no tickets sold for this room");
+        } else {
+            System.out.println("📌 Tickets sold for room Id:" + entity.getId() + " (" + entity.getName() + "):");
+            tickets.forEach(System.out::println);
+        }
+    }
+
+    private void showCertifications() {
+        List<Certification> certifications = certificationService.getCertificationsByRoom(entity.getId());
+
+        if (certifications.isEmpty()) {
+            System.out.println("There are no certifications granted for this room");
+        } else {
+            System.out.println("📌 Certifications granted for room Id:" + entity.getId() + " (" + entity.getName() + "):");
+            certifications.forEach(System.out::println);
         }
     }
 }

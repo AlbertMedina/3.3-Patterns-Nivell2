@@ -20,6 +20,10 @@ public class RewardService {
         return rewardDao.findAll();
     }
 
+    public List<Reward> getRewardsByUser(int userId) {
+        return rewardDao.findAllByUser(userId);
+    }
+
     public Reward getRewardById(int id) {
         return rewardDao.findById(id);
     }

@@ -1,6 +1,8 @@
 package user;
 
-public class User {
+import subscriber.Subscriber;
+
+public class User implements Subscriber {
 
     private int id;
     private String name;
@@ -75,6 +77,13 @@ public class User {
 
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
+    }
+
+    @Override
+    public void receiveNotification(String notification) {
+        System.out.println("To: " + email);
+        System.out.println("Dear " + name + ",");
+        System.out.println(notification);
     }
 
     @Override

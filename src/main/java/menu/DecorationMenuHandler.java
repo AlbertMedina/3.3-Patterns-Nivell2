@@ -6,7 +6,7 @@ import input.InputHandler;
 
 public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
 
-    DecorationService decorationService;
+    private final DecorationService decorationService;
 
     public DecorationMenuHandler(Decoration decoration) {
         super(decoration);
@@ -14,32 +14,25 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("DECORATION ID:" + entity.getId() + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit decoration data");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-1)");
     }
 
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editDecorationData();
-                break;
-            case 0:
-                System.out.println("Going back to room menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editDecorationData();
+            case 0 -> System.out.println("Going back to room menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 
     private void editDecorationData() {
         System.out.println("Editing data for decoration Id:" + entity.getId());
-        
+
         String newName = InputHandler.readString("Enter new name (current: " + entity.getName() + ")");
         String newMaterial = InputHandler.readString("Enter new material (current: " + entity.getMaterial() + ")");
         double newValue = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
@@ -56,7 +49,7 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
             } else {
                 System.out.println("Error updating data for decoration Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error updating data for decoration Id:" + entity.getId() + ": " + e.getMessage());
         }
     }

@@ -6,7 +6,7 @@ import input.InputHandler;
 
 public class HintMenuHandler extends EntityMenuHandler<Hint> {
 
-    HintService hintService;
+    private final HintService hintService;
 
     public HintMenuHandler(Hint hint) {
         super(hint);
@@ -14,32 +14,25 @@ public class HintMenuHandler extends EntityMenuHandler<Hint> {
     }
 
     @Override
-    protected int showMenuAndReadOption() {
+    protected void showMenuOptions() {
         System.out.println("HINT ID:" + entity.getId() + " MENU");
         System.out.println("We can do the following:");
         System.out.println("1. Edit hint data");
         System.out.println("0. Back");
-        return InputHandler.readInt("Choose what to do next (0-1)");
     }
 
     @Override
     protected void handleOption(int option) {
         switch (option) {
-            case 1:
-                editHintData();
-                break;
-            case 0:
-                System.out.println("Going back to room menu...");
-                break;
-            default:
-                System.out.println("Invalid option (" + option + ").");
-                break;
+            case 1 -> editHintData();
+            case 0 -> System.out.println("Going back to room menu...");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 
     private void editHintData() {
         System.out.println("Editing data for hint Id:" + entity.getId());
-        
+
         String newText = InputHandler.readString("Enter new text (current: " + entity.getText() + ")");
         String newTheme = InputHandler.readString("Enter new theme (current: " + entity.getTheme() + ")");
         double newValue = InputHandler.readDouble("Enter new value (current: " + entity.getValue() + ")");
@@ -56,7 +49,7 @@ public class HintMenuHandler extends EntityMenuHandler<Hint> {
             } else {
                 System.out.println("Error updating data for hint Id:" + entity.getId());
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println("Error updating data for hint Id:" + entity.getId() + ": " + e.getMessage());
         }
     }

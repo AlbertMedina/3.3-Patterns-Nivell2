@@ -54,6 +54,54 @@ public class TicketDaoImpl implements GenericDao<Ticket> {
         return tickets;
     }
 
+    public List<Ticket> findAllByRoom(int roomId) {
+        String sql = "SELECT * FROM ticket WHERE room_id = ?";
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, roomId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Ticket ticket = new Ticket(rs.getDate("date").toLocalDate(), rs.getDouble("price"), rs.getInt("room_id"), rs.getInt("user_id"));
+                    ticket.setId(rs.getInt("id"));
+                    tickets.add(ticket);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return tickets;
+    }
+
+    public List<Ticket> findAllByUser(int userId) {
+        String sql = "SELECT * FROM ticket WHERE user_id = ?";
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Ticket ticket = new Ticket(rs.getDate("date").toLocalDate(), rs.getDouble("price"), rs.getInt("room_id"), rs.getInt("user_id"));
+                    ticket.setId(rs.getInt("id"));
+                    tickets.add(ticket);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return tickets;
+    }
+
     @Override
     public boolean insert(Ticket element) {
         String sql = "INSERT INTO ticket (date, price, room_id, user_id) VALUES (?, ?, ?, ?)";

@@ -24,6 +24,14 @@ public class CertificationService {
         return certificationDao.findAll();
     }
 
+    public List<Certification> getCertificationsByRoom(int roomId) {
+        return certificationDao.findAllByRoom(roomId);
+    }
+
+    public List<Certification> getCertificationsByUser(int userId) {
+        return certificationDao.findAllByUser(userId);
+    }
+
     public Certification getCertificationById(int id) {
         return certificationDao.findById(id);
     }

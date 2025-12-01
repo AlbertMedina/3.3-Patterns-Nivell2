@@ -74,6 +74,7 @@ public class MainMenuHandler extends AbstractMenuHandler {
             case 11 -> showFullInventory();
             case 12 -> getInventoryTotalValue();
             case 0 -> System.out.println("See you soon!");
+            default -> System.out.println("Invalid option (" + option + ").");
         }
     }
 

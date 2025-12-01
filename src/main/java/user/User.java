@@ -1,5 +1,6 @@
 package user;
 
+import exceptions.ParameterValidationException;
 import user.subscriber.Subscriber;
 
 public class User implements Subscriber {
@@ -13,15 +14,15 @@ public class User implements Subscriber {
     public User(String name, String surnames, String email, boolean subscribed) {
 
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
 
         if (surnames == null || surnames.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid surname(s)");
+            throw new ParameterValidationException("Invalid surname(s)");
         }
 
         if (email == null || email.trim().isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}$")) {
-            throw new IllegalArgumentException("Invalid email");
+            throw new ParameterValidationException("Invalid email");
         }
 
         this.name = name;
@@ -44,7 +45,7 @@ public class User implements Subscriber {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
         this.name = name;
     }
@@ -55,7 +56,7 @@ public class User implements Subscriber {
 
     public void setSurnames(String surnames) {
         if (surnames == null || surnames.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid surname(s)");
+            throw new ParameterValidationException("Invalid surname(s)");
         }
         this.surnames = surnames;
     }
@@ -66,7 +67,7 @@ public class User implements Subscriber {
 
     public void setEmail(String email) {
         if (email == null || email.trim().isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}$")) {
-            throw new IllegalArgumentException("Invalid email");
+            throw new ParameterValidationException("Invalid email");
         }
         this.email = email;
     }

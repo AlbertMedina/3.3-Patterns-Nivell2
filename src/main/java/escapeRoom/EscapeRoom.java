@@ -1,6 +1,6 @@
 package escapeRoom;
 
-import exceptions.InvalidNameException;
+import exceptions.ParameterValidationException;
 
 public class EscapeRoom {
 
@@ -9,7 +9,7 @@ public class EscapeRoom {
 
     public EscapeRoom(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidNameException();
+            throw new ParameterValidationException("Invalid name");
         }
 
         this.name = name;
@@ -29,7 +29,7 @@ public class EscapeRoom {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidNameException();
+            throw new ParameterValidationException("Invalid name");
         }
         this.name = name;
     }

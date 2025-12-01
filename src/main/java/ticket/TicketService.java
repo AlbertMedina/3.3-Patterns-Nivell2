@@ -1,5 +1,8 @@
 package ticket;
 
+import exceptions.NotFoundException;
+import exceptions.RoomNotFoundException;
+import exceptions.UserNotFoundException;
 import room.Room;
 import room.RoomDaoImpl;
 import user.User;
@@ -39,12 +42,12 @@ public class TicketService {
     public boolean addTicket(LocalDate date, int roomId, int userId) {
         Room room = roomDao.findById(roomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + roomId + " does not exist");
+            throw new RoomNotFoundException("ID: " + roomId);
         }
 
         User user = userDao.findById(userId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + userId + " does not exist");
+            throw new UserNotFoundException("ID: " + userId);
         }
 
         Ticket ticket = new Ticket(date, room.getPrice(), roomId, userId);
@@ -54,17 +57,17 @@ public class TicketService {
     public boolean updateTicket(int id, LocalDate newDate, double newPrice, int newRoomId, int newUserId) {
         Ticket ticket = ticketDao.findById(id);
         if (ticket == null) {
-            throw new IllegalArgumentException("Ticket with id " + id + " does not exist");
+            throw new NotFoundException("Ticket with id " + id + " does not exist");
         }
 
         Room room = roomDao.findById(newRoomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
+            throw new RoomNotFoundException("Room with id " + newRoomId + " does not exist");
         }
 
         User user = userDao.findById(newUserId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
+            throw new UserNotFoundException("User with id " + newUserId + " does not exist");
         }
 
         ticket.setDate(newDate);

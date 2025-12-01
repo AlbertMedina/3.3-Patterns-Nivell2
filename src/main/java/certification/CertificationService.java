@@ -1,5 +1,8 @@
 package certification;
 
+import exceptions.NotFoundException;
+import exceptions.RoomNotFoundException;
+import exceptions.UserNotFoundException;
 import room.Room;
 import room.RoomDaoImpl;
 import user.User;
@@ -39,12 +42,12 @@ public class CertificationService {
     public boolean addCertification(String name, LocalDate date, int roomId, int userId) {
         Room room = roomDao.findById(roomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + roomId + " does not exist");
+            throw new RoomNotFoundException("ID: " + roomId);
         }
 
         User user = userDao.findById(userId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + userId + " does not exist");
+            throw new UserNotFoundException("ID: " + userId);
         }
 
         Certification certification = new Certification(name, date, roomId, userId);
@@ -54,17 +57,17 @@ public class CertificationService {
     public boolean updateCertification(int id, String newName, LocalDate newDate, int newRoomId, int newUserId) {
         Certification certification = certificationDao.findById(id);
         if (certification == null) {
-            throw new IllegalArgumentException("Certification with id " + id + " does not exist");
+            throw new NotFoundException("Certification with ID: " + id + " was not found.");
         }
 
         Room room = roomDao.findById(newRoomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
+            throw new RoomNotFoundException("ID: " + newRoomId);
         }
 
         User user = userDao.findById(newUserId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
+            throw new UserNotFoundException("ID: " + newUserId);
         }
 
         certification.setName(newName);

@@ -1,5 +1,7 @@
 package hint;
 
+import exceptions.NotFoundException;
+import exceptions.RoomNotFoundException;
 import room.Room;
 import room.RoomDaoImpl;
 
@@ -30,7 +32,7 @@ public class HintService {
     public boolean addHint(String text, String theme, double value, int roomId) {
         Room room = roomDao.findById(roomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + roomId + " does not exist");
+            throw new RoomNotFoundException("ID: " + roomId);
         }
 
         Hint hint = new Hint(text, theme, value, roomId);
@@ -40,12 +42,12 @@ public class HintService {
     public boolean updateHint(int id, String newText, String newTheme, double newValue, int newRoomId) {
         Hint hint = hintDao.findById(id);
         if (hint == null) {
-            throw new IllegalArgumentException("Hint with id " + id + " does not exist");
+            throw new NotFoundException("Hint with id " + id + " does not exist");
         }
 
         Room room = roomDao.findById(newRoomId);
         if (room == null) {
-            throw new IllegalArgumentException("Room with id " + newRoomId + " does not exist");
+            throw new RoomNotFoundException("ID: " + newRoomId);
         }
 
         hint.setText(newText);

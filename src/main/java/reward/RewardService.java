@@ -1,5 +1,7 @@
 package reward;
 
+import exceptions.NotFoundException;
+import exceptions.UserNotFoundException;
 import user.User;
 import user.UserDaoImpl;
 
@@ -31,7 +33,7 @@ public class RewardService {
     public boolean addReward(String name, String description, LocalDate date, int userId) {
         User user = userDao.findById(userId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + userId + " does not exist");
+            throw new UserNotFoundException("ID: " + userId);
         }
 
         Reward reward = new Reward(name, description, date, userId);
@@ -41,12 +43,12 @@ public class RewardService {
     public boolean updateReward(int id, String newName, String newDescription, LocalDate newDate, int newUserId) {
         Reward reward = rewardDao.findById(id);
         if (reward == null) {
-            throw new IllegalArgumentException("Reward with id " + id + " does not exist");
+            throw new NotFoundException("Reward with id " + id + " was not found.");
         }
 
         User user = userDao.findById(newUserId);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + newUserId + " does not exist");
+            throw new UserNotFoundException("ID: " + newUserId);
         }
 
         reward.setName(newName);

@@ -1,5 +1,6 @@
 package user;
 
+import exceptions.UserNotFoundException;
 import user.subscriber.Subscriber;
 
 import java.util.List;
@@ -8,8 +9,8 @@ public class UserService {
 
     private final UserDaoImpl userDao;
 
-    public UserService(UserDaoImpl userDao) {
-        this.userDao = userDao;
+    public UserService() {
+        userDao = new UserDaoImpl();
     }
 
     public List<User> getUsers() {
@@ -28,7 +29,7 @@ public class UserService {
     public boolean updateUser(int id, String newName, String newSurnames, String newEmail) {
         User user = userDao.findById(id);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
+            throw new UserNotFoundException("User with id " + id + " does not exist");
         }
 
         user.setName(newName);
@@ -41,7 +42,7 @@ public class UserService {
     public boolean updateUserSubscription(int id, boolean subscribed) {
         User user = userDao.findById(id);
         if (user == null) {
-            throw new IllegalArgumentException("User with id " + id + " does not exist");
+            throw new UserNotFoundException("User with id " + id + " does not exist");
         }
 
         user.setSubscribed(subscribed);

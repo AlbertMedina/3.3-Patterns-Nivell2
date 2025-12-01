@@ -1,5 +1,7 @@
 package escapeRoom;
 
+import exceptions.EscapeRoomNotFoundException;
+
 import java.util.List;
 
 public class EscapeRoomService {
@@ -15,7 +17,11 @@ public class EscapeRoomService {
     }
 
     public EscapeRoom getEscapeRoomById(int id) {
-        return escapeRoomDao.findById(id);
+        EscapeRoom room = escapeRoomDao.findById(id);
+        if (room == null) {
+            throw new EscapeRoomNotFoundException("ID: " + id);
+        }
+        return room;
     }
 
     public boolean createEscapeRoom(String name) {
@@ -27,7 +33,7 @@ public class EscapeRoomService {
     public boolean updateEscapeRoom(int id, String newName) {
         EscapeRoom escapeRoom = escapeRoomDao.findById(id);
         if (escapeRoom == null) {
-            throw new IllegalArgumentException("Escape room with id " + id + " does not exist");
+            throw new EscapeRoomNotFoundException("ID: " + id);
         }
 
         escapeRoom.setName(newName);

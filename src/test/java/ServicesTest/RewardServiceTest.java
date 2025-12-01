@@ -44,7 +44,7 @@ public class RewardServiceTest {
     public void addRewardTest() {
         LocalDate date = LocalDate.of(2025, 11, 27);
 
-        when(userDaoMock.findById(1)).thenReturn(new User("John", "Doe Santos", "john@example.com"));
+        when(userDaoMock.findById(1)).thenReturn(new User("John", "Doe Santos", "john@example.com", false));
         when(rewardDaoMock.insert(any(Reward.class))).thenReturn(true);
 
         boolean result = rewardService.addReward("Medalla", "Pasar la aventura en el tiempo previsto.", date, 1);
@@ -55,13 +55,13 @@ public class RewardServiceTest {
 
 
 
-    @Test
+    @Testgi
     public void updateRewardTest() {
         Reward existing = new Reward("Old name", "Old description", LocalDate.now(), 1);
         existing.setId(10);
 
         when(rewardDaoMock.findById(10)).thenReturn(existing);
-        when(userDaoMock.findById(2)).thenReturn(new User("John", "Doe Santos", "john@example.com"));
+        when(userDaoMock.findById(2)).thenReturn(new User("John", "Doe Santos", "john@example.com", false));
         when(rewardDaoMock.update(existing)).thenReturn(true);
 
         boolean result = rewardService.updateReward(10, "New name", "New description",

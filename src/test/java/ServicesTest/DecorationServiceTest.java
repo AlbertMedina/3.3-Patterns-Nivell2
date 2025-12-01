@@ -5,11 +5,8 @@ import decoration.DecorationDaoImpl;
 import decoration.DecorationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import reward.RewardDaoImpl;
-import reward.RewardService;
 import room.Room;
 import room.RoomDaoImpl;
-import user.UserDaoImpl;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -24,13 +21,11 @@ public class DecorationServiceTest {
     private static DecorationService decorationService;
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {
         decorationDaoMock = mock(DecorationDaoImpl.class);
         roomDaoMock = mock(RoomDaoImpl.class);
-        decorationService = new DecorationService();
 
-        injectMock("decorationDao", decorationDaoMock);
-        injectMock("roomDao", roomDaoMock);
+        decorationService = new DecorationService(roomDaoMock, decorationDaoMock);
     }
 
     private void injectMock(String fieldName, Object mock) throws Exception {
@@ -44,7 +39,7 @@ public class DecorationServiceTest {
         int roomId = 10;
 
         when(roomDaoMock.findById(roomId)).thenReturn(new Room("Room1", 1,
-                17.5,1));
+                17.5, 1));
         when(decorationDaoMock.insert(any(Decoration.class))).thenReturn(true);
 
         boolean result = decorationService.addDecoration("Lamp", "Wood", 15.5, roomId);
@@ -52,11 +47,9 @@ public class DecorationServiceTest {
         assertTrue(result);
         verify(roomDaoMock).findById(roomId);
         verify(decorationDaoMock).insert(any(Decoration.class));
-        }
-
+    }
 
     @Test
-
     void updateDecorationTest() {
         Decoration existing = new Decoration("Lamp", "Wood", 10.0, 1);
         existing.setId(5);
@@ -79,13 +72,13 @@ public class DecorationServiceTest {
     }
 
     @Test
-    void deleteDecorationTest()  {
-            when(decorationDaoMock.delete(5)).thenReturn(true);
+    void deleteDecorationTest() {
+        when(decorationDaoMock.delete(5)).thenReturn(true);
 
-            boolean result =  decorationService.removeDecoration(5);
+        boolean result = decorationService.removeDecoration(5);
 
-            assertTrue(result);
-            verify(decorationDaoMock).delete(5);
+        assertTrue(result);
+        verify(decorationDaoMock).delete(5);
     }
 
     @Test
@@ -114,7 +107,4 @@ public class DecorationServiceTest {
         assertEquals("Table", result.getName());
         verify(decorationDaoMock).findById(3);
     }
-
-
-
 }

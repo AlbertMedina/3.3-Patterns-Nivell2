@@ -20,7 +20,7 @@ public class HintDaoImplTest {
     public void setup() {
         hintDao = new HintDaoImpl();
         try (Connection conn = DBConnection.getInstance().getConnection();
-            Statement stmt = conn.createStatement()) {
+             Statement stmt = conn.createStatement()) {
             stmt.execute("DELETE FROM hint");
             stmt.execute("DELETE FROM room");
             stmt.execute("DELETE FROM escape_room");
@@ -28,8 +28,7 @@ public class HintDaoImplTest {
             stmt.execute("INSERT INTO escape_room (id, name) VALUES (1, 'Test Room')");
             stmt.execute("INSERT INTO room (id, name, difficulty, price, escape_room_id) " +
                     "VALUES (1, 'Test Room 1', 'EASY', 10.0, 1)");
-
-            } catch (SQLException e) {
+        } catch (SQLException ignored) {
 
         }
     }
@@ -51,7 +50,6 @@ public class HintDaoImplTest {
     public void testFindAll() {
         List<Hint> allHints = hintDao.findAll();
         assertNotNull(allHints);
-
     }
 
     @Test
@@ -74,7 +72,6 @@ public class HintDaoImplTest {
 
     @Test
     public void testDelete() {
-
         Hint hint = new Hint("Delete text", "Delete theme", 1.0, 1);
         hintDao.insert(hint);
 
@@ -87,9 +84,6 @@ public class HintDaoImplTest {
 
     @Test
     void testConnection() {
-
-
-
         try (Connection connection = DBConnection.getInstance().getConnection()) {
             assertNotNull(connection);
             assertFalse(connection.isClosed());
@@ -98,5 +92,3 @@ public class HintDaoImplTest {
         }
     }
 }
-
-

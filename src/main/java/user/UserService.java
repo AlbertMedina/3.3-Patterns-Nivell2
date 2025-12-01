@@ -1,6 +1,6 @@
 package user;
 
-import subscriber.Subscriber;
+import user.subscriber.Subscriber;
 
 import java.util.List;
 

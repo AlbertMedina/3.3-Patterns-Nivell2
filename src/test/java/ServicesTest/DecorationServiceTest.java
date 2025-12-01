@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import room.Room;
 import room.RoomDaoImpl;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,17 +20,11 @@ public class DecorationServiceTest {
     private static DecorationService decorationService;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         decorationDaoMock = mock(DecorationDaoImpl.class);
         roomDaoMock = mock(RoomDaoImpl.class);
 
         decorationService = new DecorationService(roomDaoMock, decorationDaoMock);
-    }
-
-    private void injectMock(String fieldName, Object mock) throws Exception {
-        Field field = DecorationService.class.getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(decorationService, mock);
     }
 
     @Test

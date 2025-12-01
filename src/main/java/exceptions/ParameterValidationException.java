@@ -2,6 +2,6 @@ package exceptions;
 
 public class ParameterValidationException extends RuntimeException {
     public ParameterValidationException(String message) {
-        super(message);
+        super("Invalid parameter: " + message);
     }
 }

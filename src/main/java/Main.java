@@ -7,6 +7,7 @@ import escapeRoom.EscapeRoomDaoImpl;
 import escapeRoom.EscapeRoomService;
 import hint.HintDaoImpl;
 import hint.HintService;
+import input.InputHandler;
 import menu.MainMenuHandler;
 import reward.RewardDaoImpl;
 import reward.RewardService;
@@ -41,5 +42,7 @@ public class Main {
 
         MainMenuHandler mainMenuHandler = new MainMenuHandler(escapeRoomService, userService, inventoryService, roomService, hintService, decorationService, ticketService, rewardService, certificationService);
         mainMenuHandler.run();
+
+        InputHandler.closeScanner();
     }
 }

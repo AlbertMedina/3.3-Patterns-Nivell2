@@ -119,18 +119,18 @@ public class RewardServiceTest {
         verify(rewardDaoMock,times(1)).findAll();
     }
 
-    /**void getRewardsByUserIdTest() {
-        List<Reward> mockList = new Reward("Reward2", "Description2", LocalDate.now(), 10),
-                                new Reward("Reward1", Description1, LocalDate.now(), 10)
-        );
+    @Test
+    void getRewardsByUserIdTest() {
+        List<Reward> mockList = Arrays.asList(new Reward("Reward2", "Description2", LocalDate.now(), 10),
+                                new Reward("Reward1", "Description1", LocalDate.now(), 10));
 
-        when(rewardDaoMock.findById(10)).thenReturn(mockList);
+        when(rewardDaoMock.findAllByUser(10)).thenReturn(mockList);
         List<Reward> result = rewardService.getRewardsByUser(10);
 
         assertEquals(2, result.size());
         verify(rewardDaoMock, times(1)).findAllByUser(10);
 
-    }**/
+    }
 
 
 }

@@ -77,9 +77,9 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     private void addRoom() {
         System.out.println("Adding new room to escape room Id:" + entity.getId());
 
-        String name = InputHandler.readString("Enter room name: ");
-        int difficultyValue = InputHandler.readInt("Enter room difficulty (1-3): ");
-        double price = InputHandler.readDouble("Enter room price: ");
+        String name = InputHandler.readString("Enter room name");
+        int difficultyValue = InputHandler.readInt("Enter room difficulty (1-3)");
+        double price = InputHandler.readDouble("Enter room price");
 
         try {
             boolean success = roomService.addRoom(name, difficultyValue, price, entity.getId());

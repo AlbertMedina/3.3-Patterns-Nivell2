@@ -89,7 +89,7 @@ public class MainMenuHandler extends AbstractMenuHandler {
     }
 
     private void addEscapeRoom() {
-        String name = InputHandler.readString("Escape Room name: ");
+        String name = InputHandler.readString("Escape Room name");
 
         try {
             boolean success = escapeRoomService.createEscapeRoom(name);
@@ -137,9 +137,9 @@ public class MainMenuHandler extends AbstractMenuHandler {
     private void addUser() {
         System.out.println("==== ADD NEW USER ====");
 
-        String name = InputHandler.readString("Enter first name: ");
-        String surname = InputHandler.readString("Enter surname: ");
-        String email = InputHandler.readString("Enter email: ");
+        String name = InputHandler.readString("Enter first name");
+        String surname = InputHandler.readString("Enter surname");
+        String email = InputHandler.readString("Enter email");
 
         try {
             boolean success = userService.addUser(name, surname, email);

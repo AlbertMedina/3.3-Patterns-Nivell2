@@ -12,13 +12,13 @@ import java.util.List;
 public class InventoryService {
 
     private final RoomService roomService;
-    private final DecorationService decorationService;
     private final HintService hintService;
+    private final DecorationService decorationService;
 
-    public InventoryService() {
-        this.roomService = new RoomService();
-        this.decorationService = new DecorationService();
-        this.hintService = new HintService();
+    public InventoryService(RoomService roomService, HintService hintService, DecorationService decorationService) {
+        this.roomService = roomService;
+        this.hintService = hintService;
+        this.decorationService = decorationService;
     }
 
     public Inventory getFullInventory() {

@@ -8,8 +8,8 @@ public class UserService {
 
     private final UserDaoImpl userDao;
 
-    public UserService() {
-        userDao = new UserDaoImpl();
+    public UserService(UserDaoImpl userDao) {
+        this.userDao = userDao;
     }
 
     public List<User> getUsers() {

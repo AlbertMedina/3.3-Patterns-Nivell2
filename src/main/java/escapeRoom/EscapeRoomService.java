@@ -6,8 +6,8 @@ public class EscapeRoomService {
 
     private final EscapeRoomDaoImpl escapeRoomDao;
 
-    public EscapeRoomService() {
-        this.escapeRoomDao = new EscapeRoomDaoImpl();
+    public EscapeRoomService(EscapeRoomDaoImpl escapeRoomDao) {
+        this.escapeRoomDao = escapeRoomDao;
     }
 
     public List<EscapeRoom> getEscapeRooms() {

@@ -10,9 +10,9 @@ public class DecorationService {
     private final RoomDaoImpl roomDao;
     private final DecorationDaoImpl decorationDao;
 
-    public DecorationService() {
-        roomDao = new RoomDaoImpl();
-        decorationDao = new DecorationDaoImpl();
+    public DecorationService(RoomDaoImpl roomDao, DecorationDaoImpl decorationDao) {
+        this.roomDao = roomDao;
+        this.decorationDao = decorationDao;
     }
 
     public List<Decoration> getDecorations() {

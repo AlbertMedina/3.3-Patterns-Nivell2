@@ -11,9 +11,9 @@ public class RewardService {
     private final RewardDaoImpl rewardDao;
     private final UserDaoImpl userDao;
 
-    public RewardService() {
-        rewardDao = new RewardDaoImpl();
-        userDao = new UserDaoImpl();
+    public RewardService(RewardDaoImpl rewardDao, UserDaoImpl userDao) {
+        this.rewardDao = rewardDao;
+        this.userDao = userDao;
     }
 
     public List<Reward> getRewards() {

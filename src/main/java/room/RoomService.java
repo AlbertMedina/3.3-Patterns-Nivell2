@@ -10,9 +10,9 @@ public class RoomService {
     private final EscapeRoomDaoImpl escapeRoomDao;
     private final RoomDaoImpl roomDao;
 
-    public RoomService() {
-        escapeRoomDao = new EscapeRoomDaoImpl();
-        roomDao = new RoomDaoImpl();
+    public RoomService(EscapeRoomDaoImpl escapeRoomDao, RoomDaoImpl roomDao) {
+        this.escapeRoomDao = escapeRoomDao;
+        this.roomDao = roomDao;
     }
 
     public List<Room> getRooms() {

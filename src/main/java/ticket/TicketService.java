@@ -14,10 +14,10 @@ public class TicketService {
     private final RoomDaoImpl roomDao;
     private final UserDaoImpl userDao;
 
-    public TicketService() {
-        ticketDao = new TicketDaoImpl();
-        roomDao = new RoomDaoImpl();
-        userDao = new UserDaoImpl();
+    public TicketService(TicketDaoImpl ticketDao, RoomDaoImpl roomDao, UserDaoImpl userDao) {
+        this.ticketDao = ticketDao;
+        this.roomDao = roomDao;
+        this.userDao = userDao;
     }
 
     public List<Ticket> getTickets() {

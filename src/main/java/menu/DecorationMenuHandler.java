@@ -8,9 +8,9 @@ public class DecorationMenuHandler extends EntityMenuHandler<Decoration> {
 
     private final DecorationService decorationService;
 
-    public DecorationMenuHandler(Decoration decoration) {
+    public DecorationMenuHandler(Decoration decoration, DecorationService decorationService) {
         super(decoration);
-        decorationService = new DecorationService();
+        this.decorationService = decorationService;
     }
 
     @Override

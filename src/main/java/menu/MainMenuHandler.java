@@ -2,12 +2,14 @@ package menu;
 
 import Inventory.Inventory;
 import Inventory.InventoryService;
-import decoration.Decoration;
+import certification.CertificationService;
+import decoration.DecorationService;
 import escapeRoom.EscapeRoom;
 import escapeRoom.EscapeRoomService;
-import hint.Hint;
+import hint.HintService;
 import input.InputHandler;
-import room.Room;
+import reward.RewardService;
+import room.RoomService;
 import ticket.TicketService;
 import user.User;
 import user.UserService;
@@ -16,10 +18,27 @@ import java.util.List;
 
 public class MainMenuHandler extends AbstractMenuHandler {
 
-    private final EscapeRoomService escapeRoomService = new EscapeRoomService();
-    private final UserService userService = new UserService();
-    private final TicketService ticketService = new TicketService();
-    private final InventoryService inventoryService = new InventoryService();
+    private final EscapeRoomService escapeRoomService;
+    private final UserService userService;
+    private final InventoryService inventoryService;
+    private final RoomService roomService;
+    private final HintService hintService;
+    private final DecorationService decorationService;
+    private final TicketService ticketService;
+    private final RewardService rewardService;
+    private final CertificationService certificationService;
+
+    public MainMenuHandler(EscapeRoomService escapeRoomService, UserService userService, InventoryService inventoryService, RoomService roomService, HintService hintService, DecorationService decorationService, TicketService ticketService, RewardService rewardService, CertificationService certificationService) {
+        this.escapeRoomService = escapeRoomService;
+        this.userService = userService;
+        this.inventoryService = inventoryService;
+        this.roomService = roomService;
+        this.hintService = hintService;
+        this.decorationService = decorationService;
+        this.ticketService = ticketService;
+        this.rewardService = rewardService;
+        this.certificationService = certificationService;
+    }
 
     @Override
     protected void showMenuOptions() {
@@ -70,7 +89,7 @@ public class MainMenuHandler extends AbstractMenuHandler {
     }
 
     private void addEscapeRoom() {
-        String name = InputHandler.readString("Escape Room name: ");
+        String name = InputHandler.readString("Escape Room name");
 
         try {
             boolean success = escapeRoomService.createEscapeRoom(name);
@@ -86,7 +105,7 @@ public class MainMenuHandler extends AbstractMenuHandler {
         EscapeRoom escapeRoom = escapeRoomService.getEscapeRoomById(id);
 
         if (escapeRoom != null) {
-            EscapeRoomMenuHandler escapeRoomMenu = new EscapeRoomMenuHandler(escapeRoom);
+            EscapeRoomMenuHandler escapeRoomMenu = new EscapeRoomMenuHandler(escapeRoom, escapeRoomService, roomService, hintService, decorationService, ticketService, certificationService);
             escapeRoomMenu.run();
         } else {
             System.out.println("Escape room not found.");
@@ -118,9 +137,9 @@ public class MainMenuHandler extends AbstractMenuHandler {
     private void addUser() {
         System.out.println("==== ADD NEW USER ====");
 
-        String name = InputHandler.readString("Enter first name: ");
-        String surname = InputHandler.readString("Enter surname: ");
-        String email = InputHandler.readString("Enter email: ");
+        String name = InputHandler.readString("Enter first name");
+        String surname = InputHandler.readString("Enter surname");
+        String email = InputHandler.readString("Enter email");
 
         try {
             boolean success = userService.addUser(name, surname, email);
@@ -136,7 +155,7 @@ public class MainMenuHandler extends AbstractMenuHandler {
         User user = userService.getUserById(id);
 
         if (user != null) {
-            UserMenuHandler userMenu = new UserMenuHandler(user);
+            UserMenuHandler userMenu = new UserMenuHandler(user, userService, rewardService, certificationService, ticketService);
             userMenu.run();
         } else {
             System.out.println("User not found");

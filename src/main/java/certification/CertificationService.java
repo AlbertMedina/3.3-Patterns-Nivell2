@@ -17,10 +17,10 @@ public class CertificationService {
     private final RoomDaoImpl roomDao;
     private final UserDaoImpl userDao;
 
-    public CertificationService() {
-        certificationDao = new CertificationDaoImpl();
-        roomDao = new RoomDaoImpl();
-        userDao = new UserDaoImpl();
+    public CertificationService(CertificationDaoImpl certificationDao, RoomDaoImpl roomDao, UserDaoImpl userDao) {
+        this.certificationDao = certificationDao;
+        this.roomDao = roomDao;
+        this.userDao = userDao;
     }
 
     public List<Certification> getCertifications() {

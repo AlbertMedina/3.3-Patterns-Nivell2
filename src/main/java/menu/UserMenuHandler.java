@@ -20,12 +20,12 @@ public class UserMenuHandler extends EntityMenuHandler<User> {
     private final CertificationService certificationService;
     private final TicketService ticketService;
 
-    public UserMenuHandler(User user) {
+    public UserMenuHandler(User user, UserService userService, RewardService rewardService, CertificationService certificationService, TicketService ticketService) {
         super(user);
-        userService = new UserService();
-        rewardService = new RewardService();
-        certificationService = new CertificationService();
-        ticketService = new TicketService();
+        this.userService = userService;
+        this.rewardService = rewardService;
+        this.certificationService = certificationService;
+        this.ticketService = ticketService;
     }
 
     @Override

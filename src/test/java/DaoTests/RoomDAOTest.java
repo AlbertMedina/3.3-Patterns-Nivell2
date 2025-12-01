@@ -18,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoomDAOTest {
-
-    private int escapeRoomID;
+    
     private static RoomDaoImpl dao;
 
     @BeforeEach
@@ -35,8 +34,6 @@ public class RoomDAOTest {
 
         EscapeRoomDaoImpl dao1 = new EscapeRoomDaoImpl();
         dao1.insert(new EscapeRoom("EscapeRoom52"));
-
-
     }
 
     @Test
@@ -54,7 +51,7 @@ public class RoomDAOTest {
 
     @Test
     void testFindAll() {
-        dao.insert(new Room("Room 1", Difficulty.EASY,19.5,1));
+        dao.insert(new Room("Room 1", Difficulty.EASY, 19.5, 1));
         dao.insert(new Room("Room 2", Difficulty.HARD, 25.45, 1));
 
         var list = dao.findAll();
@@ -96,4 +93,3 @@ public class RoomDAOTest {
         assertNull(dao.findById(id));
     }
 }
-

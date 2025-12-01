@@ -1,10 +1,14 @@
 package menu;
 
+import certification.CertificationService;
+import decoration.DecorationService;
 import escapeRoom.EscapeRoom;
 import escapeRoom.EscapeRoomService;
+import hint.HintService;
 import input.InputHandler;
 import room.Room;
 import room.RoomService;
+import ticket.TicketService;
 
 import java.util.List;
 
@@ -12,11 +16,19 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
 
     private final EscapeRoomService escapeRoomService;
     private final RoomService roomService;
+    private final HintService hintService;
+    private final DecorationService decorationService;
+    private final TicketService ticketService;
+    private final CertificationService certificationService;
 
-    public EscapeRoomMenuHandler(EscapeRoom escapeRoom) {
+    public EscapeRoomMenuHandler(EscapeRoom escapeRoom, EscapeRoomService escapeRoomService, RoomService roomService, HintService hintService, DecorationService decorationService, TicketService ticketService, CertificationService certificationService) {
         super(escapeRoom);
-        escapeRoomService = new EscapeRoomService();
-        roomService = new RoomService();
+        this.escapeRoomService = escapeRoomService;
+        this.roomService = roomService;
+        this.hintService = hintService;
+        this.decorationService = decorationService;
+        this.ticketService = ticketService;
+        this.certificationService = certificationService;
     }
 
     @Override
@@ -65,9 +77,9 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
     private void addRoom() {
         System.out.println("Adding new room to escape room Id:" + entity.getId());
 
-        String name = InputHandler.readString("Enter room name: ");
-        int difficultyValue = InputHandler.readInt("Enter room difficulty (1-3): ");
-        double price = InputHandler.readDouble("Enter room price: ");
+        String name = InputHandler.readString("Enter room name");
+        int difficultyValue = InputHandler.readInt("Enter room difficulty (1-3)");
+        double price = InputHandler.readDouble("Enter room price");
 
         try {
             boolean success = roomService.addRoom(name, difficultyValue, price, entity.getId());
@@ -87,7 +99,7 @@ public class EscapeRoomMenuHandler extends EntityMenuHandler<EscapeRoom> {
         Room room = roomService.getRoomById(roomId);
 
         if (room != null) {
-            RoomMenuHandler roomMenu = new RoomMenuHandler(room);
+            RoomMenuHandler roomMenu = new RoomMenuHandler(room, roomService, hintService, decorationService, ticketService, certificationService);
             roomMenu.run();
         } else {
             System.out.println("Room Id:" + roomId + " could not be found");

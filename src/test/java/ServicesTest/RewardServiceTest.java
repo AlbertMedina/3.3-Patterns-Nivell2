@@ -1,6 +1,5 @@
 package ServicesTest;
 
-import db.DBConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reward.Reward;
@@ -9,10 +8,6 @@ import reward.RewardService;
 import user.User;
 import user.UserDaoImpl;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -26,24 +21,13 @@ public class RewardServiceTest {
     private static UserDaoImpl userDaoMock;
     private static RewardService rewardService;
 
-
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() {
         rewardDaoMock = mock(RewardDaoImpl.class);
         userDaoMock = mock(UserDaoImpl.class);
-        rewardService = new RewardService();
 
-        Field rewardDaoField = RewardService.class.getDeclaredField("rewardDao");
-        rewardDaoField.setAccessible(true);
-        rewardDaoField.set(rewardService, rewardDaoMock);
-
-        Field userDaoField = RewardService.class.getDeclaredField("userDao");
-        userDaoField.setAccessible(true);
-        userDaoField.set(rewardService, userDaoMock);
-
+        rewardService = new RewardService(rewardDaoMock, userDaoMock);
     }
-
-
 
     @Test
     public void addRewardTest() {
@@ -57,9 +41,7 @@ public class RewardServiceTest {
         assertTrue(result);
         verify(rewardDaoMock, times(1)).insert(any(Reward.class));
     }
-
-
-
+    
     @Test
     public void updateRewardTest() {
         Reward existing = new Reward("Old name", "Old description", LocalDate.now(), 1);
@@ -88,7 +70,6 @@ public class RewardServiceTest {
 
         assertTrue(result);
         verify(rewardDaoMock, times(1)).delete(5);
-
     }
 
     @Test
@@ -116,21 +97,18 @@ public class RewardServiceTest {
         List<Reward> result = rewardService.getRewards();
 
         assertEquals(2, result.size());
-        verify(rewardDaoMock,times(1)).findAll();
+        verify(rewardDaoMock, times(1)).findAll();
     }
 
     @Test
     void getRewardsByUserIdTest() {
         List<Reward> mockList = Arrays.asList(new Reward("Reward2", "Description2", LocalDate.now(), 10),
-                                new Reward("Reward1", "Description1", LocalDate.now(), 10));
+                new Reward("Reward1", "Description1", LocalDate.now(), 10));
 
         when(rewardDaoMock.findAllByUser(10)).thenReturn(mockList);
         List<Reward> result = rewardService.getRewardsByUser(10);
 
         assertEquals(2, result.size());
         verify(rewardDaoMock, times(1)).findAllByUser(10);
-
     }
-
-
 }

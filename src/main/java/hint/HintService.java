@@ -12,9 +12,9 @@ public class HintService {
     private final RoomDaoImpl roomDao;
     private final HintDaoImpl hintDao;
 
-    public HintService() {
-        roomDao = new RoomDaoImpl();
-        hintDao = new HintDaoImpl();
+    public HintService(RoomDaoImpl roomDao, HintDaoImpl hintDao) {
+        this.roomDao = roomDao;
+        this.hintDao = hintDao;
     }
 
     public List<Hint> getHints() {

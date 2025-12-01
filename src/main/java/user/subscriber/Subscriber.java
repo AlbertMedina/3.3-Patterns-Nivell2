@@ -1,4 +1,4 @@
-package subscriber;
+package user.subscriber;
 
 public interface Subscriber {
 

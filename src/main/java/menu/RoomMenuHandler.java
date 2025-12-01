@@ -22,13 +22,13 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
     private final TicketService ticketService;
     private final CertificationService certificationService;
 
-    public RoomMenuHandler(Room room) {
+    public RoomMenuHandler(Room room, RoomService roomService, HintService hintService, DecorationService decorationService, TicketService ticketService, CertificationService certificationService) {
         super(room);
-        roomService = new RoomService();
-        hintService = new HintService();
-        decorationService = new DecorationService();
-        ticketService = new TicketService();
-        certificationService = new CertificationService();
+        this.roomService = roomService;
+        this.hintService = hintService;
+        this.decorationService = decorationService;
+        this.ticketService = ticketService;
+        this.certificationService = certificationService;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
         Hint hint = hintService.getHintById(hintId);
 
         if (hint != null) {
-            HintMenuHandler hintMenu = new HintMenuHandler(hint);
+            HintMenuHandler hintMenu = new HintMenuHandler(hint, hintService);
             hintMenu.run();
         } else {
             System.out.println("Hint Id:" + hintId + " could not be found");
@@ -187,7 +187,7 @@ public class RoomMenuHandler extends EntityMenuHandler<Room> {
 
         Decoration decoration = decorationService.getDecorationById(decorationId);
         if (decoration != null) {
-            DecorationMenuHandler decorationMenu = new DecorationMenuHandler(decoration);
+            DecorationMenuHandler decorationMenu = new DecorationMenuHandler(decoration, decorationService);
             decorationMenu.run();
         } else {
             System.out.println("Decoration Id:" + decorationId + " could not be found");

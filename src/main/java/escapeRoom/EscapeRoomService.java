@@ -8,8 +8,8 @@ public class EscapeRoomService {
 
     private final EscapeRoomDaoImpl escapeRoomDao;
 
-    public EscapeRoomService() {
-        this.escapeRoomDao = new EscapeRoomDaoImpl();
+    public EscapeRoomService(EscapeRoomDaoImpl escapeRoomDao) {
+        this.escapeRoomDao = escapeRoomDao;
     }
 
     public List<EscapeRoom> getEscapeRooms() {
@@ -17,11 +17,7 @@ public class EscapeRoomService {
     }
 
     public EscapeRoom getEscapeRoomById(int id) {
-        EscapeRoom room = escapeRoomDao.findById(id);
-        if (room == null) {
-            throw new EscapeRoomNotFoundException("ID: " + id);
-        }
-        return room;
+        return escapeRoomDao.findById(id);
     }
 
     public boolean createEscapeRoom(String name) {

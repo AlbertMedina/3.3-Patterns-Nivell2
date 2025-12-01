@@ -8,9 +8,9 @@ public class HintMenuHandler extends EntityMenuHandler<Hint> {
 
     private final HintService hintService;
 
-    public HintMenuHandler(Hint hint) {
+    public HintMenuHandler(Hint hint, HintService hintService) {
         super(hint);
-        hintService = new HintService();
+        this.hintService = hintService;
     }
 
     @Override

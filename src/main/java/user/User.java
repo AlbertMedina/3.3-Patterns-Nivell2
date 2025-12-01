@@ -1,7 +1,7 @@
 package user;
 
 import exceptions.ParameterValidationException;
-import subscriber.Subscriber;
+import user.subscriber.Subscriber;
 
 public class User implements Subscriber {
 

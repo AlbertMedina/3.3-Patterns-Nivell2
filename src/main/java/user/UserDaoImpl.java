@@ -2,7 +2,7 @@ package user;
 
 import db.DBConnection;
 import db.GenericDao;
-import subscriber.Subscriber;
+import user.subscriber.Subscriber;
 
 import java.sql.*;
 import java.util.ArrayList;

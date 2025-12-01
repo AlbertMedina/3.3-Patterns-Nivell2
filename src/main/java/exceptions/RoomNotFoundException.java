@@ -1,7 +1,7 @@
 package exceptions;
 
-public class RoomNotFoundException extends RuntimeException {
+public class RoomNotFoundException extends NotFoundException {
     public RoomNotFoundException(String message) {
-        super("This room could not be found, please try again later.");
+        super("This room could not be found. " + message);
     }
 }

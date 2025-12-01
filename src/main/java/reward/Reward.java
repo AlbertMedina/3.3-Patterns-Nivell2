@@ -1,5 +1,7 @@
 package reward;
 
+import exceptions.ParameterValidationException;
+
 import java.time.LocalDate;
 
 public class Reward {
@@ -14,15 +16,15 @@ public class Reward {
     public Reward(String name, String description, LocalDate date, int userId) {
 
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new ParameterValidationException("Name cannot be null or empty");
         }
 
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Description cannot be null or empty");
+            throw new ParameterValidationException("Description cannot be null or empty");
         }
 
         if (date == null) {
-            throw new IllegalArgumentException("Date cannot be null");
+            throw new ParameterValidationException("Date cannot be null");
         }
 
         this.name = name;
@@ -45,7 +47,7 @@ public class Reward {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new ParameterValidationException("Name cannot be null or empty");
         }
         this.name = name;
     }
@@ -56,7 +58,7 @@ public class Reward {
 
     public void setDescription(String description) {
         if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Description cannot be null or empty");
+            throw new ParameterValidationException("Description cannot be null or empty");
         }
         this.description = description;
     }
@@ -67,7 +69,7 @@ public class Reward {
 
     public void setDate(LocalDate date) {
         if (date == null) {
-            throw new IllegalArgumentException("Date cannot be null");
+            throw new ParameterValidationException("Date cannot be null");
         }
         this.date = date;
     }

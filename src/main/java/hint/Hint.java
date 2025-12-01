@@ -1,5 +1,7 @@
 package hint;
 
+import exceptions.ParameterValidationException;
+
 public class Hint {
 
     private int id;
@@ -11,15 +13,15 @@ public class Hint {
     public Hint(String text, String theme, double value, int roomId) {
 
         if (text == null || text.trim().isEmpty()) {
-            throw new IllegalArgumentException("Text can not be null or empty");
+            throw new ParameterValidationException("Text can not be null or empty");
         }
 
         if (theme == null || theme.trim().isEmpty()) {
-            throw new IllegalArgumentException("Theme can not be null or empty");
+            throw new ParameterValidationException("Theme can not be null or empty");
         }
 
         if (value <= 0) {
-            throw new IllegalArgumentException("Value can not be negative");
+            throw new ParameterValidationException("Value can not be negative");
         }
 
         this.text = text;

@@ -1,5 +1,7 @@
 package ticket;
 
+import exceptions.ParameterValidationException;
+
 import java.time.LocalDate;
 
 public class Ticket {
@@ -13,11 +15,11 @@ public class Ticket {
     public Ticket(LocalDate date, double price, int roomId, int userId) {
 
         if (date == null) {
-            throw new IllegalArgumentException("Invalid date");
+            throw new ParameterValidationException("Invalid date");
         }
 
         if (price <= 0) {
-            throw new IllegalArgumentException("Invalid price");
+            throw new ParameterValidationException("Invalid price");
         }
 
         this.date = date;
@@ -36,7 +38,7 @@ public class Ticket {
 
     public LocalDate getDate() {
         if (date == null) {
-            throw new IllegalArgumentException("Invalid date");
+            throw new ParameterValidationException("Invalid date");
         }
         return date;
     }
@@ -51,7 +53,7 @@ public class Ticket {
 
     public void setPrice(double price) {
         if (price <= 0) {
-            throw new IllegalArgumentException("Invalid price");
+            throw new ParameterValidationException("Invalid price");
         }
         this.price = price;
     }

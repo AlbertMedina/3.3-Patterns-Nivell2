@@ -1,5 +1,7 @@
 package room;
 
+import exceptions.ParameterValidationException;
+
 public class Room {
 
     private int id;
@@ -11,15 +13,15 @@ public class Room {
     public Room(String name, Difficulty difficulty, double price, int escapeRoomId) {
 
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
 
         if (difficulty == null) {
-            throw new IllegalArgumentException("Invalid difficulty");
+            throw new ParameterValidationException("Invalid difficulty");
         }
 
         if (price <= 0) {
-            throw new IllegalArgumentException("Invalid price");
+            throw new ParameterValidationException("Invalid price");
         }
 
         this.name = name;
@@ -46,7 +48,7 @@ public class Room {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
         this.name = name;
     }
@@ -61,7 +63,7 @@ public class Room {
 
     public void setDifficulty(Difficulty difficulty) {
         if (difficulty == null) {
-            throw new IllegalArgumentException("Invalid difficulty");
+            throw new ParameterValidationException("Invalid difficulty");
         }
         this.difficulty = difficulty;
     }
@@ -72,7 +74,7 @@ public class Room {
 
     public void setPrice(double price) {
         if (price <= 0) {
-            throw new IllegalArgumentException("Invalid price");
+            throw new ParameterValidationException("Invalid price");
         }
         this.price = price;
     }

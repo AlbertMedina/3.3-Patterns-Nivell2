@@ -1,7 +1,7 @@
 package exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends NotFoundException {
     public UserNotFoundException(String message) {
-        super("We haven't found the user. Please make sure the user ID is correct.");
+        super("We haven't found the user. " + message);
     }
 }

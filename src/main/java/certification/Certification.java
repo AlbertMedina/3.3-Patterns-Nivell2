@@ -1,5 +1,7 @@
 package certification;
 
+import exceptions.ParameterValidationException;
+
 import java.time.LocalDate;
 
 public class Certification {
@@ -13,11 +15,11 @@ public class Certification {
     public Certification(String name, LocalDate date, int roomId, int userId) {
 
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
 
         if (date == null) {
-            throw new IllegalArgumentException("Invalid date");
+            throw new ParameterValidationException("Invalid date");
         }
 
         this.name = name;
@@ -40,7 +42,7 @@ public class Certification {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ParameterValidationException("Invalid name");
         }
         this.name = name;
     }
@@ -51,7 +53,7 @@ public class Certification {
 
     public void setDate(LocalDate date) {
         if (date == null) {
-            throw new IllegalArgumentException("Invalid date");
+            throw new ParameterValidationException("Invalid date");
         }
         this.date = date;
     }

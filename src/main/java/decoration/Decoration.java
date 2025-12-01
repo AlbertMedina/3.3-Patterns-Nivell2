@@ -79,6 +79,6 @@ public class Decoration {
 
     @Override
     public String toString() {
-        return "Decoration { id: " + id + ", name: " + name + ", material: " + material + ", value: " + value + ", room id: " + roomId + " }";
+        return "Decoration ID" + id + " -> Name: " + name + " | Material: " + material + " | Value: " + value + "€ | Room ID: " + roomId;
     }
 }

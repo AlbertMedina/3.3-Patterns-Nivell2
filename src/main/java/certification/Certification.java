@@ -74,6 +74,6 @@ public class Certification {
 
     @Override
     public String toString() {
-        return "Certification { id: " + id + ", name: " + name + ", date: " + date + ", room id: " + roomId + ", user id: " + userId + " }";
+        return "Certification ID" + id + " -> Name: " + name + " | Date: " + date + " Room ID: " + roomId + " | User id: " + userId;
     }
 }

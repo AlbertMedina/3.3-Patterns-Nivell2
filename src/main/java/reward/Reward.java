@@ -82,6 +82,6 @@ public class Reward {
 
     @Override
     public String toString() {
-        return "Reward { id: " + id + ", name: " + name + ", description: " + description + ", date: " + date + ", user id: " + userId + " }";
+        return "Reward ID" + id + " -> Name: " + name + " | Description: " + description + " | Date: " + date + " | User ID: " + userId;
     }
 }

@@ -87,6 +87,6 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room { id: " + id + ", name: " + name + ", difficulty: " + difficulty + ", price: " + price + ", escape room id: " + escapeRoomId + " }";
+        return "Room ID" + id + " -> Name: " + name + " | Difficulty: " + difficulty.toString().toLowerCase() + " | Price: " + price + "€ | Escape room ID: " + escapeRoomId;
     }
 }

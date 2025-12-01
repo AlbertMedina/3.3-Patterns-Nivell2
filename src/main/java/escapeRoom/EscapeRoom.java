@@ -36,6 +36,6 @@ public class EscapeRoom {
 
     @Override
     public String toString() {
-        return "EscapeRoom { id: " + id + ", name: " + name + " }";
+        return "EscapeRoom ID" + id + " -> Name: " + name;
     }
 }

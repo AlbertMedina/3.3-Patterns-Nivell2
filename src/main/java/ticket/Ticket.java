@@ -74,6 +74,6 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket { id: " + id + ", date: " + date + ", price: " + price + ", room id: " + roomId + ", user id: " + userId + " }";
+        return "Ticket ID" + id + " -> Date: " + date + " | Price: " + price + "€ | Room ID: " + roomId + " | User ID: " + userId;
     }
 }

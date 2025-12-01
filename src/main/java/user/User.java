@@ -88,6 +88,6 @@ public class User implements Subscriber {
 
     @Override
     public String toString() {
-        return "User { id: " + id + ", name: " + name + ", surnames: " + surnames + ", email: " + email + ", subscribed: " + (subscribed ? "yes" : "no") + " }";
+        return "User ID" + id + " -> Name: " + name + " | Surnames: " + surnames + " | Email: " + email + " | Subscription: " + (subscribed ? "On" : "Off");
     }
 }

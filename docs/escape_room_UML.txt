@@ -1,0 +1,139 @@
+@startuml
+title Escape Room Management System - Overview
+
+' ===========================
+'  PACKAGES
+' ===========================
+package "escapeRoom" {
+    class EscapeRoom
+    class EscapeRoomDaoImpl
+    class EscapeRoomService
+}
+
+package "room" {
+    class Room
+    enum Difficulty
+    class RoomDaoImpl
+    class RoomService
+}
+
+package "hint" {
+    class Hint
+    class HintDaoImpl
+    class HintService
+}
+
+package "decoration" {
+    class Decoration
+    class DecorationDaoImpl
+    class DecorationService
+}
+
+package "ticket" {
+    class Ticket
+    class TicketDaoImpl
+    class TicketService
+}
+
+package "reward" {
+    class Reward
+    class RewardDaoImpl
+    class RewardService
+}
+
+package "certification" {
+    class Certification
+    class CertificationDaoImpl
+    class CertificationService
+}
+
+package "user" {
+    class User
+    class UserDaoImpl
+    class UserService
+    interface Subscriber
+}
+
+package "Inventory" {
+    class Inventory
+    class InventoryService
+}
+
+package "menu" {
+    abstract class AbstractMenuHandler
+    abstract class EntityMenuHandler
+    class MainMenuHandler
+    class EscapeRoomMenuHandler
+    class UserMenuHandler
+}
+
+package "input" {
+    class InputHandler
+}
+
+package "db" {
+    interface GenericDao
+    class DBConnection
+}
+
+package "exceptions" {
+    class ParameterValidationException
+    class NotFoundException
+}
+
+' ===========================
+' RELATIONS
+' ===========================
+
+' --- DAOs implement Generic DAO ---
+GenericDao <|.. EscapeRoomDaoImpl
+GenericDao <|.. RoomDaoImpl
+GenericDao <|.. HintDaoImpl
+GenericDao <|.. DecorationDaoImpl
+GenericDao <|.. TicketDaoImpl
+GenericDao <|.. RewardDaoImpl
+GenericDao <|.. CertificationDaoImpl
+GenericDao <|.. user.UserDaoImpl
+
+' --- Services use DAOs ---
+EscapeRoomService --> EscapeRoomDaoImpl
+RoomService --> RoomDaoImpl
+HintService --> HintDaoImpl
+DecorationService --> DecorationDaoImpl
+TicketService --> TicketDaoImpl
+RewardService --> RewardDaoImpl
+CertificationService --> CertificationDaoImpl
+UserService --> user.UserDaoImpl
+
+InventoryService --> RoomService
+InventoryService --> DecorationService
+InventoryService --> HintService
+
+' --- Domain relations ---
+EscapeRoom "1" --> "0..*" Room
+Room "1" --> "0..*" Hint
+Room "1" --> "0..*" Decoration
+Room "1" --> "0..*" Ticket
+
+User "1" --> "0..*" Ticket
+User "1" --> "0..*" Reward
+User "1" --> "0..*" Certification
+
+Certification --> Room
+
+' --- Observer ---
+Subscriber <|.. User
+
+' --- Menus ---
+AbstractMenuHandler <|-- EntityMenuHandler
+AbstractMenuHandler <|-- MainMenuHandler
+EntityMenuHandler <|-- EscapeRoomMenuHandler
+EntityMenuHandler <|-- UserMenuHandler
+
+MainMenuHandler --> EscapeRoomService
+MainMenuHandler --> UserService
+MainMenuHandler --> InventoryService
+MainMenuHandler --> TicketService
+MainMenuHandler --> RewardService
+MainMenuHandler --> CertificationService
+@enduml
